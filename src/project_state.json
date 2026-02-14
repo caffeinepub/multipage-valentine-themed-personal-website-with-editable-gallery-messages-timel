@@ -1,11 +1,17 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 3,
+  "projectStateVersion": 7,
   "summary": "Multipage Valentine-themed personal website (romantic gift) with soft pastel aesthetic, smooth animations, responsive design, and editable content (photos, messages, timeline).",
-  "architectural_notes": [],
-  "known_issues": [],
-  "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Pastel romantic hero background with soft bokeh and subtle heart shapes (valentine-hero-bg.dim_1920x1080.png)\n- Seamless pastel heart pattern background, minimal and elegant (valentine-heart-pattern.dim_1024x1024.png)\n- Rose-gold foil style divider/ornament line, elegant flourish (rose-gold-divider.dim_1600x200.png)\n- Cute classy envelope illustration, minimal vector-like style (love-envelope-icon.dim_512x512.png)",
+  "architectural_notes": [
+    "Draft vs Live publishing is currently driven by a chat-level Publish action; consider adding explicit state indicators and confirmations to reduce user error.",
+    "Consider adding an explicit post-build 'ready to publish' state with a guaranteed visible Publish CTA (and a retry/resurface control) to mitigate cases where the chat-level Publish button fails to render."
+  ],
+  "known_issues": [
+    "Users report that pressing an in-editor 'Publish changes' button does not update the live link; high confusion between editor save/draft vs chat publish.",
+    "Publish button in chat may not appear consistently (depends on build/draft state), blocking users from publishing and leading to perceived data loss.",
+    "Even after user confirms the draft looks correct, the chat-level Publish button may fail to appear; users request a rebuild/retry that does not change content but surfaces the Publish CTA clearly."
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-create-a-fully-responsive-multipage-valentine-themed-personal-website-with-the-following-pages-home-our-memories-photo-gallery-love-messages-timeline-interactive-surprise-and-final-dedication",
@@ -78,6 +84,38 @@
         "REQ-9"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-ensure-that-opening-the-editor-draft-view-is-strictly-non-destructive-loading-the-draft-must-only-fetch-and-display-existing-saved-gallery-photos-and-love-messages-letters-and-must-not-create-overwrite-reorder-or-delete-any-content-unless-the-user-explicitly-performs-an-add-edit-delete-reorder-action",
+      "title": "Ensure that opening the editor/draft view is strictly non-destructive: loading the draft must only fetch and display existing saved gallery photos and love messages (letters) and must not create, overwrite, reorder, or delete any content unless the user explicitly performs an add/edit/delete/reorder action.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-clear-read-only-draft-review-summary-at-the-top-of-the-edit-content-experience-that-confirms-what-is-currently-saved-e-g-counts-of-gallery-items-and-messages-and-a-visible-last-loaded-timestamp-so-the-user-can-immediately-verify-their-photos-and-letters-are-still-in-the-draft-without-editing-anything",
+      "title": "Add a clear read-only “Draft Review” summary at the top of the Edit Content experience that confirms what is currently saved (e.g., counts of Gallery Items and Messages, and a visible ‘Last loaded’ timestamp), so the user can immediately verify their photos and letters are still in the draft without editing anything.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-prominent-always-visible-publishing-callout-section-near-the-top-of-the-edit-content-page-that-clearly-explains-the-difference-between-saving-edits-draft-and-publishing-the-live-site-chat-level-publish-using-clear-english-text",
+      "title": "Add a prominent, always-visible \"Publishing\" callout section near the top of the Edit Content page that clearly explains the difference between saving edits (draft) and publishing the live site (chat-level publish), using clear English text.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-publishing-callout-include-a-clear-user-action-that-helps-users-reliably-trigger-the-correct-publish-flow-when-the-chat-level-publish-button-fails-to-appear-without-changing-any-site-content",
+      "title": "In the Publishing callout, include a clear user action that helps users reliably trigger the correct publish flow when the chat-level Publish button fails to appear, without changing any site content.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -135,6 +173,32 @@
       "reqIds": [
         "REQ-10"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Improve publishing workflow/UX: clearly distinguish Draft vs Live, make the correct Publish action discoverable (and/or add an in-editor publish option), and show publish status/last published timestamp to prevent confusion about which button goes live.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Add safeguards to prevent loss/confusion of edits: ensure photos/letters added in draft persist reliably across sessions/builds, and provide clear confirmation of what content will be published to the live link.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Improve reliability of saved draft content across canister upgrades by persisting all editable content (gallery items, love messages, timeline milestones, interactive surprise config, final dedication, and user profiles) in stable storage and restoring it on upgrade, so saved photos and letters are not lost after redeploy/upgrade events.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Ensure the real chat-level Publish button reliably appears after a successful build/confirmation, and provide a clear retry/resurface mechanism when it fails to display.",
+      "reqIds": [],
       "status": "pending"
     }
   ],

@@ -1,324 +1,48 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-14T05:53:57.409Z",
+  "generatedAt": "2026-02-14T09:36:31.997Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 10,
-    "implemented": 9,
+    "total": 2,
+    "implemented": 2,
     "items": [
       {
-        "id": "REQ-1",
-        "summary": "Create a fully responsive multipage Valentine-themed personal website with the following pages: Home, “Our Memories” (Photo Gallery), Love Messages, Timeline, Interactive Surprise, and Final Dedication.",
+        "id": "REQ-14",
+        "summary": "Add a prominent, always-visible \"Publishing\" callout section near the top of the Edit Content page that clearly explains the difference between saving edits (draft) and publishing the live site (chat-level publish), using clear English text.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/App.tsx",
-          "frontend/src/components/SiteLayout.tsx",
-          "frontend/src/components/SiteNav.tsx",
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/pages/MemoriesGalleryPage.tsx",
-          "frontend/src/pages/LoveMessagesPage.tsx",
-          "frontend/src/pages/TimelinePage.tsx",
-          "frontend/src/pages/InteractiveSurprisePage.tsx",
-          "frontend/src/pages/FinalDedicationPage.tsx"
+          "frontend/src/components/PublishingCallout.tsx",
+          "frontend/src/pages/EditContentPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/App.tsx",
-          "frontend/src/components/SiteLayout.tsx",
-          "frontend/src/components/SiteNav.tsx",
-          "frontend/src/pages/HomePage.tsx",
-          "frontend/src/pages/MemoriesGalleryPage.tsx",
-          "frontend/src/pages/LoveMessagesPage.tsx",
-          "frontend/src/pages/TimelinePage.tsx",
-          "frontend/src/pages/InteractiveSurprisePage.tsx",
-          "frontend/src/pages/FinalDedicationPage.tsx"
+          "frontend/src/components/PublishingCallout.tsx",
+          "frontend/src/pages/EditContentPage.tsx"
         ]
       },
       {
-        "id": "REQ-10",
-        "summary": "Implement backend persistence APIs in the single Motoko main actor to store and retrieve all editable content: gallery items (image + caption + ordering), love messages (title/preview + full text + ordering), timeline milestones (date/title/description/photo + ordering), Home/Final Dedication text fields, and Interactive Surprise page configuration (quiz questions/results and flip card content).",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-2",
-        "summary": "Apply a cohesive romantic visual theme across all pages: soft pastel palette (pink, beige, lavender, cream, rose gold), cute-but-classy styling, elegant romantic typography, and smooth animations/transitions that feel subtle and emotional.",
+        "id": "REQ-15",
+        "summary": "In the Publishing callout, include a clear user action that helps users reliably trigger the correct publish flow when the chat-level Publish button fails to appear, without changing any site content.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/index.css",
-          "frontend/tailwind.config.js",
-          "frontend/src/components/ValentineSurface.tsx",
-          "frontend/public/assets/generated/valentine-heart-pattern.dim_1024x1024.png",
-          "frontend/public/assets/generated/rose-gold-divider.dim_1600x200.png"
+          "frontend/src/components/PublishingCallout.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/index.css",
-          "frontend/tailwind.config.js",
-          "frontend/src/components/ValentineSurface.tsx",
-          "frontend/public/assets/generated/valentine-heart-pattern.dim_1024x1024.png",
-          "frontend/public/assets/generated/rose-gold-divider.dim_1600x200.png"
-        ]
-      },
-      {
-        "id": "REQ-3",
-        "summary": "Implement the Home page with: (1) a romantic welcome headline (e.g., “For My Special One”), (2) a hero section with an image background, and (3) subtle heart/love animations (e.g., floating hearts, shimmer, or gentle particle hearts).",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/assets/generated/valentine-hero-bg.dim_1920x1080.png",
-          "frontend/src/components/HeartParticles.tsx",
-          "frontend/src/pages/HomePage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/public/assets/generated/valentine-hero-bg.dim_1920x1080.png",
-          "frontend/src/components/HeartParticles.tsx",
-          "frontend/src/pages/HomePage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Build the “Our Memories” Photo Gallery page featuring a slideshow/carousel with smooth animated transitions, supporting multiple photos and showing a caption under each photo.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/GalleryCarousel.tsx",
-          "frontend/src/hooks/useGallery.ts",
-          "frontend/src/pages/MemoriesGalleryPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/GalleryCarousel.tsx",
-          "frontend/src/pages/MemoriesGalleryPage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-5",
-        "summary": "Create the Love Messages page with multiple message cards/envelopes; each message is click-to-open (closed preview state → opened full note), and supports long personal messages with comfortable reading layout.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/public/assets/generated/love-envelope-icon.dim_512x512.png",
-          "frontend/src/components/MessageEnvelopeCard.tsx",
-          "frontend/src/hooks/useLoveMessages.ts",
-          "frontend/src/pages/LoveMessagesPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/public/assets/generated/love-envelope-icon.dim_512x512.png",
-          "frontend/src/components/MessageEnvelopeCard.tsx",
-          "frontend/src/pages/LoveMessagesPage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-6",
-        "summary": "Create the Timeline page showing a journey timeline of milestones (important dates), with each milestone supporting a date, title, description, and optional photo; include interactive affordances (expand/collapse or step-by-step browsing) while keeping the page romantic and elegant.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/TimelineMilestoneItem.tsx",
-          "frontend/src/hooks/useTimeline.ts",
-          "frontend/src/pages/TimelinePage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/TimelineMilestoneItem.tsx",
-          "frontend/src/pages/TimelinePage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-7",
-        "summary": "Implement the Interactive Surprise page with: (1) a “surprise” button that triggers a romantic reveal (message/animation), (2) a small love quiz (multiple questions with results), (3) flip cards, and (4) heart animations on clicks/taps within the page.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/SurpriseReveal.tsx",
-          "frontend/src/components/LoveQuiz.tsx",
-          "frontend/src/components/FlipCard.tsx",
-          "frontend/src/hooks/useInteractiveSurpriseConfig.ts",
-          "frontend/src/pages/InteractiveSurprisePage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/SurpriseReveal.tsx",
-          "frontend/src/components/LoveQuiz.tsx",
-          "frontend/src/components/FlipCard.tsx",
-          "frontend/src/pages/InteractiveSurprisePage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-8",
-        "summary": "Implement the Final Dedication page with a closing love note and a personal signature section (name/sign-off), styled consistently with the overall theme.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useFinalDedication.ts",
-          "frontend/src/pages/FinalDedicationPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/FinalDedicationPage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-9",
-        "summary": "Provide an easy in-app editing experience to update photos, captions, memories, timeline milestones, and love letters/messages, including drag-and-drop interactions where appropriate (e.g., reordering gallery items and message cards).",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/EditContentPage.tsx",
-          "frontend/src/components/EditGuard.tsx",
-          "frontend/src/components/ProfileSetupModal.tsx",
-          "frontend/src/components/DragReorderList.tsx",
-          "frontend/src/components/editors/GalleryEditor.tsx",
-          "frontend/src/components/editors/LoveMessagesEditor.tsx",
-          "frontend/src/components/editors/TimelineEditor.tsx",
-          "frontend/src/components/editors/DedicationEditor.tsx",
-          "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
-          "frontend/src/hooks/useEditMutations.ts",
-          "frontend/src/components/LoginButton.tsx",
-          "frontend/src/components/SiteNav.tsx",
-          "frontend/src/App.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/EditContentPage.tsx",
-          "frontend/src/components/EditGuard.tsx",
-          "frontend/src/components/ProfileSetupModal.tsx",
-          "frontend/src/components/DragReorderList.tsx",
-          "frontend/src/components/editors/GalleryEditor.tsx",
-          "frontend/src/components/editors/LoveMessagesEditor.tsx",
-          "frontend/src/components/editors/TimelineEditor.tsx",
-          "frontend/src/components/editors/DedicationEditor.tsx",
-          "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
-          "frontend/src/hooks/useEditMutations.ts",
-          "frontend/src/components/LoginButton.tsx",
-          "frontend/src/components/SiteNav.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/PublishingCallout.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/authorization/MixinAuthorization.mo",
-    "backend/authorization/access-control.mo",
-    "backend/blob-storage/Mixin.mo",
-    "backend/blob-storage/Storage.mo",
-    "backend/main.mo",
     "build-request.json",
-    "build-template/Dockerfile",
-    "build-template/LICENSE",
-    "build-template/README.md",
-    "build-template/deploy.sh",
-    "build-template/icp.yaml",
-    "build-template/package.json",
-    "build-template/pnpm-lock.yaml",
-    "build-template/pnpm-workspace.yaml",
-    "build-template/scripts/prune-unused-images.js",
-    "build-template/scripts/resize-images.js",
-    "build-template/src/backend/canister.yaml",
-    "build-template/src/backend/system-idl/aaaaa-aa.did",
-    "build-template/src/frontend/canister.yaml",
-    "build-template/src/frontend/components.json",
-    "build-template/src/frontend/env.json",
-    "build-template/src/frontend/eslint-rules/no-bigint-in-query-keys.js",
-    "build-template/src/frontend/eslint-rules/require-internet-identity-provider.js",
-    "build-template/src/frontend/eslint.config.js",
-    "build-template/src/frontend/package.json",
-    "build-template/src/frontend/postcss.config.js",
-    "build-template/src/frontend/src/components/ui/accordion.tsx",
-    "build-template/src/frontend/src/components/ui/alert-dialog.tsx",
-    "build-template/src/frontend/src/components/ui/alert.tsx",
-    "build-template/src/frontend/src/components/ui/aspect-ratio.tsx",
-    "build-template/src/frontend/src/components/ui/avatar.tsx",
-    "build-template/src/frontend/src/components/ui/badge.tsx",
-    "build-template/src/frontend/src/components/ui/breadcrumb.tsx",
-    "build-template/src/frontend/src/components/ui/button.tsx",
-    "build-template/src/frontend/src/components/ui/calendar.tsx",
-    "build-template/src/frontend/src/components/ui/card.tsx",
-    "build-template/src/frontend/src/components/ui/carousel.tsx",
-    "build-template/src/frontend/src/components/ui/chart.tsx",
-    "build-template/src/frontend/src/components/ui/checkbox.tsx",
-    "build-template/src/frontend/src/components/ui/collapsible.tsx",
-    "build-template/src/frontend/src/components/ui/command.tsx",
-    "build-template/src/frontend/src/components/ui/context-menu.tsx",
-    "build-template/src/frontend/src/components/ui/dialog.tsx",
-    "build-template/src/frontend/src/components/ui/drawer.tsx",
-    "build-template/src/frontend/src/components/ui/dropdown-menu.tsx",
-    "build-template/src/frontend/src/components/ui/form.tsx",
-    "build-template/src/frontend/src/components/ui/hover-card.tsx",
-    "build-template/src/frontend/src/components/ui/input-otp.tsx",
-    "build-template/src/frontend/src/components/ui/input.tsx",
-    "build-template/src/frontend/src/components/ui/label.tsx",
-    "build-template/src/frontend/src/components/ui/menubar.tsx",
-    "build-template/src/frontend/src/components/ui/navigation-menu.tsx",
-    "build-template/src/frontend/src/components/ui/pagination.tsx",
-    "build-template/src/frontend/src/components/ui/popover.tsx",
-    "build-template/src/frontend/src/components/ui/progress.tsx",
-    "build-template/src/frontend/src/components/ui/radio-group.tsx",
-    "build-template/src/frontend/src/components/ui/resizable.tsx",
-    "build-template/src/frontend/src/components/ui/scroll-area.tsx",
-    "build-template/src/frontend/src/components/ui/select.tsx",
-    "build-template/src/frontend/src/components/ui/separator.tsx",
-    "build-template/src/frontend/src/components/ui/sheet.tsx",
-    "build-template/src/frontend/src/components/ui/sidebar.tsx",
-    "build-template/src/frontend/src/components/ui/skeleton.tsx",
-    "build-template/src/frontend/src/components/ui/slider.tsx",
-    "build-template/src/frontend/src/components/ui/sonner.tsx",
-    "build-template/src/frontend/src/components/ui/switch.tsx",
-    "build-template/src/frontend/src/components/ui/table.tsx",
-    "build-template/src/frontend/src/components/ui/tabs.tsx",
-    "build-template/src/frontend/src/components/ui/textarea.tsx",
-    "build-template/src/frontend/src/components/ui/toggle-group.tsx",
-    "build-template/src/frontend/src/components/ui/toggle.tsx",
-    "build-template/src/frontend/src/components/ui/tooltip.tsx",
-    "build-template/src/frontend/src/hooks/use-mobile.tsx",
-    "build-template/src/frontend/src/lib/utils.ts",
-    "build-template/src/frontend/tsconfig.json",
-    "build-template/src/frontend/vite.config.js",
-    "build-template/tsconfig.json",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/index.css",
-    "frontend/index.html",
-    "frontend/public/assets/generated/love-envelope-icon.dim_512x512.png",
-    "frontend/public/assets/generated/rose-gold-divider.dim_1600x200.png",
-    "frontend/public/assets/generated/valentine-heart-pattern.dim_1024x1024.png",
-    "frontend/public/assets/generated/valentine-hero-bg.dim_1920x1080.png",
-    "frontend/src/App.tsx",
-    "frontend/src/backend.d.ts",
-    "frontend/src/backend.ts",
-    "frontend/src/components/DragReorderList.tsx",
-    "frontend/src/components/EditGuard.tsx",
-    "frontend/src/components/FlipCard.tsx",
-    "frontend/src/components/GalleryCarousel.tsx",
-    "frontend/src/components/HeartParticles.tsx",
-    "frontend/src/components/LoginButton.tsx",
-    "frontend/src/components/LoveQuiz.tsx",
-    "frontend/src/components/MessageEnvelopeCard.tsx",
-    "frontend/src/components/ProfileSetupModal.tsx",
-    "frontend/src/components/SiteLayout.tsx",
-    "frontend/src/components/SiteNav.tsx",
-    "frontend/src/components/SurpriseReveal.tsx",
-    "frontend/src/components/TimelineMilestoneItem.tsx",
-    "frontend/src/components/ValentineSurface.tsx",
-    "frontend/src/components/editors/DedicationEditor.tsx",
-    "frontend/src/components/editors/GalleryEditor.tsx",
-    "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
-    "frontend/src/components/editors/LoveMessagesEditor.tsx",
-    "frontend/src/components/editors/TimelineEditor.tsx",
-    "frontend/src/config.ts",
-    "frontend/src/declarations/backend.did.d.ts",
-    "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useActor.ts",
-    "frontend/src/hooks/useEditMutations.ts",
-    "frontend/src/hooks/useInternetIdentity.ts",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/index.css",
-    "frontend/src/main.tsx",
+    "frontend/src/components/PublishingCallout.tsx",
     "frontend/src/pages/EditContentPage.tsx",
-    "frontend/src/pages/FinalDedicationPage.tsx",
-    "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/InteractiveSurprisePage.tsx",
-    "frontend/src/pages/LoveMessagesPage.tsx",
-    "frontend/src/pages/MemoriesGalleryPage.tsx",
-    "frontend/src/pages/TimelinePage.tsx",
-    "frontend/src/ui-summary.json",
-    "frontend/src/utils/StorageClient.ts",
-    "frontend/src/utils/urlParams.ts",
-    "frontend/tailwind.config.js",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -1,342 +1,44 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Valentine multipage personal site with editable memories, messages, timeline, and surprises (frontend-only)",
+  "title": "Clarify publishing workflow and add prominent Publish callout on Edit Content page",
   "requirements": [
     {
-      "id": "REQ-1",
-      "summary": "Create a fully responsive multipage Valentine-themed personal website with required pages and navigation.",
+      "id": "REQ-14",
+      "summary": "Add a prominent, always-visible Publishing callout near the top of the Edit Content page explaining draft saves vs chat-level publishing.",
       "acceptanceCriteria": [
-        "Navigation exists to access all required pages on both mobile and desktop.",
-        "Layout is fully responsive (no horizontal scroll on common phone widths) and remains readable on large screens.",
-        "All user-facing text is in English."
+        "On /edit, a clearly styled callout appears above the tabs (near the existing DraftReviewSummary) with a heading like \"Publishing\" or \"How to Publish\".",
+        "The callout text explicitly states that edits are saved as draft in the editor and that publishing happens outside the editor (via the platform publish action in chat).",
+        "The callout uses high-contrast styling consistent with the romantic theme (e.g., bordered card, icon, clear hierarchy) and is readable on mobile and desktop.",
+        "No existing saved content is modified by merely viewing this callout (pure UI change)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/components/PublishingCallout.tsx",
           "operation": "create",
-          "description": "Create the app shell with a lightweight client-side router (no backend changes), registering routes for Home, Our Memories, Love Messages, Timeline, Interactive Surprise, and Final Dedication; wire in shared layout and navigation."
+          "description": "Create a reusable, high-contrast romantic-themed callout card component with an icon, \"Publishing\" heading, and clear English copy describing: editor saves create drafts; publishing happens outside the editor via the chat-level/platform publish action. Ensure the component is purely presentational (no content mutations)."
         },
-        {
-          "path": "frontend/src/components/SiteLayout.tsx",
-          "operation": "create",
-          "description": "Create a shared responsive layout wrapper (header/nav + main + footer) used by all pages to ensure consistent spacing and mobile-first behavior."
-        },
-        {
-          "path": "frontend/src/components/SiteNav.tsx",
-          "operation": "create",
-          "description": "Create a responsive navigation component (desktop links + mobile menu) linking to all required pages; ensure touch-friendly hit targets."
-        },
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
-          "operation": "create",
-          "description": "Create the Home page view and wire it into App routing."
-        },
-        {
-          "path": "frontend/src/pages/MemoriesGalleryPage.tsx",
-          "operation": "create",
-          "description": "Create the Our Memories (Photo Gallery) page view and wire it into App routing."
-        },
-        {
-          "path": "frontend/src/pages/LoveMessagesPage.tsx",
-          "operation": "create",
-          "description": "Create the Love Messages page view and wire it into App routing."
-        },
-        {
-          "path": "frontend/src/pages/TimelinePage.tsx",
-          "operation": "create",
-          "description": "Create the Timeline page view and wire it into App routing."
-        },
-        {
-          "path": "frontend/src/pages/InteractiveSurprisePage.tsx",
-          "operation": "create",
-          "description": "Create the Interactive Surprise page view and wire it into App routing."
-        },
-        {
-          "path": "frontend/src/pages/FinalDedicationPage.tsx",
-          "operation": "create",
-          "description": "Create the Final Dedication page view and wire it into App routing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Apply a cohesive romantic theme (pastel palette, rose-gold accents, elegant typography, subtle animations) across the whole site.",
-      "acceptanceCriteria": [
-        "A consistent color system (including rose-gold accents) is used across components and pages.",
-        "Animations/transitions are present on page load and key interactions, and are subtle (no distracting motion).",
-        "Typography uses romantic/elegant fonts (with sensible fallbacks) and remains accessible/readable."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/index.css",
-          "operation": "create",
-          "description": "Define global CSS variables for the pastel palette and rose-gold accents; set base typography (romantic/elegant font stack with fallbacks); add subtle shared animations (fade/float/shimmer) while keeping motion gentle and accessible."
-        },
-        {
-          "path": "frontend/tailwind.config.js",
-          "operation": "modify",
-          "description": "Extend Tailwind theme tokens to reflect the Valentine palette (including rose-gold accent) and add any additional keyframes/animations needed for subtle transitions across the UI."
-        },
-        {
-          "path": "frontend/src/components/ValentineSurface.tsx",
-          "operation": "create",
-          "description": "Create a reusable surface/card wrapper that applies consistent romantic styling (soft borders, pastel backgrounds, rose-gold divider usage) to page sections."
-        },
-        {
-          "path": "frontend/public/assets/generated/valentine-heart-pattern.dim_1024x1024.png",
-          "operation": "create",
-          "description": "Add required generated asset at frontend/public/assets/generated/valentine-heart-pattern.dim_1024x1024.png and use it as a subtle background texture in the site layout."
-        },
-        {
-          "path": "frontend/public/assets/generated/rose-gold-divider.dim_1600x200.png",
-          "operation": "create",
-          "description": "Add required generated asset at frontend/public/assets/generated/rose-gold-divider.dim_1600x200.png and use it as an ornamental divider in key sections."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Implement the Home page hero with a romantic headline, image background, and subtle heart/love animations.",
-      "acceptanceCriteria": [
-        "Home page shows a hero section with a background image and an English romantic welcome message.",
-        "At least one subtle heart/love animation is visible on the Home page.",
-        "Animations remain performant on mobile (no obvious jank during scrolling)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/valentine-hero-bg.dim_1920x1080.png",
-          "operation": "create",
-          "description": "Add required generated asset at frontend/public/assets/generated/valentine-hero-bg.dim_1920x1080.png for the Home hero background."
-        },
-        {
-          "path": "frontend/src/components/HeartParticles.tsx",
-          "operation": "create",
-          "description": "Create a performant, subtle heart/love animation overlay component (e.g., lightweight floating hearts) suitable for mobile; avoid heavy reflows and keep animation density low."
-        },
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
-          "operation": "modify",
-          "description": "Implement the hero section with background image (frontend/public/assets/generated/valentine-hero-bg.dim_1920x1080.png), romantic headline text in English, and include HeartParticles for subtle love animation."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Build the Our Memories photo gallery with a smooth carousel/slideshow and captions per photo.",
-      "acceptanceCriteria": [
-        "Gallery displays photos in a carousel/slideshow with previous/next controls and smooth transitions.",
-        "Each photo displays a caption beneath it.",
-        "The gallery works on touch devices (swipe or tap controls)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/GalleryCarousel.tsx",
-          "operation": "create",
-          "description": "Create a touch-friendly carousel/slideshow component with smooth animated transitions, prev/next controls, and caption rendering beneath the active image."
-        },
-        {
-          "path": "frontend/src/hooks/useGallery.ts",
-          "operation": "create",
-          "description": "Create React Query hooks for loading gallery items from the backend actor and mapping ExternalBlob images via getDirectURL() (use the blob-storage ExternalBlob capability). Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/pages/MemoriesGalleryPage.tsx",
-          "operation": "modify",
-          "description": "Wire gallery data loading via React Query and render the GalleryCarousel; ensure responsive sizing and touch interaction support."
-        }
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "summary": "Create the Love Messages page with multiple click-to-open message cards/envelopes that support long readable messages.",
-      "acceptanceCriteria": [
-        "Messages appear as multiple cards/envelopes in a grid/list appropriate for screen size.",
-        "Clicking/tapping a message toggles open/close with an animation.",
-        "Long messages are scrollable/expandable and remain readable on mobile."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/love-envelope-icon.dim_512x512.png",
-          "operation": "create",
-          "description": "Add required generated asset at frontend/public/assets/generated/love-envelope-icon.dim_512x512.png and use it as the visual motif for message envelopes/cards."
-        },
-        {
-          "path": "frontend/src/components/MessageEnvelopeCard.tsx",
-          "operation": "create",
-          "description": "Create an envelope-style message card component with closed preview and opened full note states, including a subtle open/close animation and long-text friendly layout."
-        },
-        {
-          "path": "frontend/src/hooks/useLoveMessages.ts",
-          "operation": "create",
-          "description": "Create React Query hooks to fetch love messages and cache them; provide a stable ordering for rendering and support future edit-mode mutations."
-        },
-        {
-          "path": "frontend/src/pages/LoveMessagesPage.tsx",
-          "operation": "modify",
-          "description": "Render a responsive grid/list of MessageEnvelopeCard components; ensure long messages are comfortable to read on mobile (scroll/expand behavior)."
-        }
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "summary": "Create an elegant Timeline page with milestones (date/title/description/optional photo) and interactive browsing affordances.",
-      "acceptanceCriteria": [
-        "Timeline renders a chronological list of milestones with date and description visible.",
-        "Each milestone can optionally show a photo.",
-        "Timeline is usable on mobile (no cramped layout; milestones stack vertically)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/TimelineMilestoneItem.tsx",
-          "operation": "create",
-          "description": "Create a milestone item component that displays date/title/description and optionally renders a milestone photo via ExternalBlob.getDirectURL(); include expand/collapse affordance with subtle animation. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/hooks/useTimeline.ts",
-          "operation": "create",
-          "description": "Create React Query hooks to fetch timeline milestones and normalize ordering; support optional photo rendering via ExternalBlob."
-        },
-        {
-          "path": "frontend/src/pages/TimelinePage.tsx",
-          "operation": "modify",
-          "description": "Render the timeline as a responsive, vertical-stacking layout on mobile with interactive expand/collapse or step navigation while keeping romantic styling consistent."
-        }
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "summary": "Implement the Interactive Surprise page with a reveal button, a multi-question quiz with results, flip cards, and heart animations on interaction.",
-      "acceptanceCriteria": [
-        "Surprise button triggers a visible reveal interaction (text and/or animation).",
-        "Quiz supports at least 3 questions, tracks answers, and shows a result/summary at the end.",
-        "Flip cards animate between front/back states on click/tap.",
-        "Clicking/tapping in designated areas triggers heart animations."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/SurpriseReveal.tsx",
-          "operation": "create",
-          "description": "Create a Surprise button + reveal component with a romantic reveal animation/transition (subtle) and English message copy."
-        },
-        {
-          "path": "frontend/src/components/LoveQuiz.tsx",
-          "operation": "create",
-          "description": "Create a quiz component that supports at least 3 questions, tracks answers, and shows a results/summary screen; keep interactions mobile-friendly."
-        },
-        {
-          "path": "frontend/src/components/FlipCard.tsx",
-          "operation": "create",
-          "description": "Create a flip card component with front/back content and a click/tap 3D-style flip animation (subtle, not distracting)."
-        },
-        {
-          "path": "frontend/src/hooks/useInteractiveSurpriseConfig.ts",
-          "operation": "create",
-          "description": "Create React Query hooks to load interactive surprise configuration (quiz questions/results logic and flip card content) from the backend actor and provide it to the Surprise page."
-        },
-        {
-          "path": "frontend/src/pages/InteractiveSurprisePage.tsx",
-          "operation": "modify",
-          "description": "Compose SurpriseReveal, LoveQuiz, FlipCard list, and integrate HeartParticles-triggered effects on designated click/tap interactions."
-        }
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "summary": "Implement a Final Dedication page with a closing love note and signature section, consistent with the theme.",
-      "acceptanceCriteria": [
-        "Final Dedication page includes a closing note area and a signature/sign-off area.",
-        "Typography and spacing make the note feel like a final, emotional dedication.",
-        "Page remains fully responsive."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useFinalDedication.ts",
-          "operation": "create",
-          "description": "Create React Query hooks to load the Final Dedication content from the backend actor and provide safe loading/empty states."
-        },
-        {
-          "path": "frontend/src/pages/FinalDedicationPage.tsx",
-          "operation": "modify",
-          "description": "Render dedication title/message and a signature/sign-off section with romantic typography, spacing, and responsive layout consistent with the global theme."
-        }
-      ]
-    },
-    {
-      "id": "REQ-9",
-      "summary": "Add an in-app Edit mode/page for managing all editable content with drag-and-drop reordering and persisted saves via backend calls.",
-      "acceptanceCriteria": [
-        "There is a clearly discoverable “Edit” mode/page in the UI for managing content.",
-        "Gallery items can be added/removed and reordered via drag-and-drop; captions are editable.",
-        "Love messages can be added/removed and reordered via drag-and-drop; message text supports long content editing.",
-        "Timeline milestones can be added/edited/removed and reordered; each milestone supports date/title/description and optional photo.",
-        "Edits persist across page reloads (stored in the canister backend)."
-      ],
-      "file_operations": [
         {
           "path": "frontend/src/pages/EditContentPage.tsx",
-          "operation": "create",
-          "description": "Create a dedicated Edit page that centralizes editing for gallery, messages, timeline, dedication text, and interactive surprise config; include clear sectioning and save/error states. Use the authorization component pattern to require login before allowing edits. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/EditGuard.tsx",
-          "operation": "create",
-          "description": "Create a guard wrapper that prompts Internet Identity login for edit access and gracefully handles authorization failures; use backend role checks (e.g., isCallerAdmin / getCallerUserRole) to decide whether to show editing controls. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/ProfileSetupModal.tsx",
-          "operation": "create",
-          "description": "Create a first-login modal for setting the user profile name using getCallerUserProfile/saveCallerUserProfile; avoid showing principal IDs. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/DragReorderList.tsx",
-          "operation": "create",
-          "description": "Create a reusable drag-and-drop reorder list using native HTML5 drag events (no new dependencies) to support reordering gallery items, messages, and timeline milestones in Edit mode."
-        },
-        {
-          "path": "frontend/src/components/editors/GalleryEditor.tsx",
-          "operation": "create",
-          "description": "Create an editor for gallery items: add/remove, edit captions, reorder via DragReorderList, and upload images using blob-storage ExternalBlob.fromBytes(...).withUploadProgress(...) then call backend save functions; display images via ExternalBlob.getDirectURL(). Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/editors/LoveMessagesEditor.tsx",
-          "operation": "create",
-          "description": "Create an editor for love messages: add/remove, edit title/preview/full text (long content), reorder via DragReorderList, and persist via backend mutation calls; include autosave or explicit save actions with clear feedback."
-        },
-        {
-          "path": "frontend/src/components/editors/TimelineEditor.tsx",
-          "operation": "create",
-          "description": "Create an editor for timeline milestones: add/edit/remove, edit date/title/description, optional photo upload using ExternalBlob, reorder via DragReorderList, and persist changes via backend mutation calls. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/editors/DedicationEditor.tsx",
-          "operation": "create",
-          "description": "Create an editor for Home/Final Dedication text fields, saving via backend calls, with preview-friendly typography and validation for empty states."
-        },
-        {
-          "path": "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
-          "operation": "create",
-          "description": "Create an editor for quiz questions/results behavior and flip card content, persisting via setInteractiveSurpriseConfig; ensure quiz has at least 3 questions after editing."
-        },
-        {
-          "path": "frontend/src/hooks/useEditMutations.ts",
-          "operation": "create",
-          "description": "Create React Query mutation hooks for add/update/delete/reorder operations across gallery/messages/timeline/dedication/surprise config; handle authorization errors gracefully and invalidate the appropriate queries on success."
-        },
-        {
-          "path": "frontend/src/components/LoginButton.tsx",
-          "operation": "create",
-          "description": "Create a login/logout button using the existing useInternetIdentity hook and clear React Query cache on logout (authorization component guidance). Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/SiteNav.tsx",
           "operation": "modify",
-          "description": "Add a clearly discoverable Edit navigation entry that routes to the EditContentPage; visually distinguish it (e.g., subtle rose-gold accent)."
-        },
+          "description": "Wire the new PublishingCallout into /edit so it renders above the Tabs (positioned near DraftReviewSummary) and remains visually prominent on both mobile and desktop, without changing routing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Add a single primary CTA in the Publishing callout to help users resurface the chat-level publish flow by copying a publish-request message with robust clipboard fallback and confirmation.",
+      "acceptanceCriteria": [
+        "The callout includes a single primary CTA (e.g., \"Copy publish request message\") that copies a short, explicit message to the clipboard instructing the user what to send in chat to request a rebuild/resurface of the publish button (English text).",
+        "After clicking the CTA, the UI shows a success confirmation (toast or inline confirmation) that the message was copied.",
+        "The CTA does not perform any backend mutations and does not create/update/delete/reorder any gallery/messages/timeline/dedication/surprise content.",
+        "If clipboard access is unavailable, the UI shows the message in a selectable text area so the user can manually copy it."
+      ],
+      "file_operations": [
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/components/PublishingCallout.tsx",
           "operation": "modify",
-          "description": "Register and wire the Edit route/page into the router; ensure public pages remain accessible while edit actions require authentication via EditGuard."
+          "description": "Implement the CTA behavior: attempt to copy a predefined publish-request message via browser clipboard APIs; show an inline success confirmation when copied; if clipboard is unavailable/denied, reveal the same message in a read-only, selectable textarea for manual copy. Ensure no backend calls/mutations occur from this action."
         }
       ]
     }

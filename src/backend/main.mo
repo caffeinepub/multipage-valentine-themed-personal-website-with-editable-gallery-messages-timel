@@ -10,6 +10,8 @@ import MixinStorage "blob-storage/Mixin";
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
 
+
+
 actor {
   // Types
   public type GalleryItem = {
@@ -95,18 +97,18 @@ actor {
     userProfiles.add(caller, profile);
   };
 
-  // Gallery API
+  // Gallery API - Admin only for modifications, users can view
   public shared ({ caller }) func addGalleryItem(id : Text, image : Storage.ExternalBlob, caption : Text, order : Nat) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can add gallery items");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can add gallery items");
     };
     let item : GalleryItem = { id; image; caption; order };
     galleryItems.add(id, item);
   };
 
   public shared ({ caller }) func updateGalleryItemOrder(id : Text, newOrder : Nat) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can update gallery items");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can update gallery items");
     };
     switch (galleryItems.get(id)) {
       case (null) { Runtime.trap("Item not found") };
@@ -118,31 +120,29 @@ actor {
   };
 
   public shared ({ caller }) func deleteGalleryItem(id : Text) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can delete gallery items");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can delete gallery items");
     };
     galleryItems.remove(id);
   };
 
-  public query ({ caller }) func getAllGalleryItems() : async [GalleryItem] {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can view gallery items");
-    };
+  public query func getAllGalleryItems() : async [GalleryItem] {
+    // Allow anyone (including guests) to view gallery items
     galleryItems.entries().map(func((_, item)) { item }).toArray();
   };
 
-  // Love Messages API
+  // Love Messages API - Admin only for modifications, users can view
   public shared ({ caller }) func addLoveMessage(id : Text, title : Text, preview : Text, fullText : Text, order : Nat) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can add love messages");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can add love messages");
     };
     let message : LoveMessage = { id; title; preview; fullText; order };
     loveMessages.add(id, message);
   };
 
   public shared ({ caller }) func updateLoveMessage(id : Text, title : Text, preview : Text, fullText : Text) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can update love messages");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can update love messages");
     };
     switch (loveMessages.get(id)) {
       case (null) { Runtime.trap("Item not found") };
@@ -154,8 +154,8 @@ actor {
   };
 
   public shared ({ caller }) func updateLoveMessageOrder(id : Text, newOrder : Nat) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can update love messages");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can update love messages");
     };
     switch (loveMessages.get(id)) {
       case (null) { Runtime.trap("Item not found") };
@@ -167,20 +167,18 @@ actor {
   };
 
   public shared ({ caller }) func deleteLoveMessage(id : Text) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can delete love messages");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can delete love messages");
     };
     loveMessages.remove(id);
   };
 
-  public query ({ caller }) func getAllLoveMessages() : async [LoveMessage] {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can view love messages");
-    };
+  public query func getAllLoveMessages() : async [LoveMessage] {
+    // Allow anyone (including guests) to view love messages
     loveMessages.entries().map(func((_, message)) { message }).toArray();
   };
 
-  // Timeline API
+  // Timeline API - Admin only for modifications, users can view
   public shared ({ caller }) func addTimelineMilestone(
     id : Text,
     date : Time.Time,
@@ -189,8 +187,8 @@ actor {
     photo : ?Storage.ExternalBlob,
     order : Nat,
   ) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can add timeline milestones");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can add timeline milestones");
     };
     let milestone : TimelineMilestone = {
       id;
@@ -210,8 +208,8 @@ actor {
     description : Text,
     photo : ?Storage.ExternalBlob,
   ) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can update timeline milestones");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can update timeline milestones");
     };
     switch (timelineMilestones.get(id)) {
       case (null) { Runtime.trap("Item not found") };
@@ -223,8 +221,8 @@ actor {
   };
 
   public shared ({ caller }) func updateTimelineMilestoneOrder(id : Text, newOrder : Nat) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can update timeline milestones");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can update timeline milestones");
     };
     switch (timelineMilestones.get(id)) {
       case (null) { Runtime.trap("Item not found") };
@@ -236,46 +234,40 @@ actor {
   };
 
   public shared ({ caller }) func deleteTimelineMilestone(id : Text) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can delete timeline milestones");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can delete timeline milestones");
     };
     timelineMilestones.remove(id);
   };
 
-  public query ({ caller }) func getAllTimelineMilestones() : async [TimelineMilestone] {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can view timeline milestones");
-    };
+  public query func getAllTimelineMilestones() : async [TimelineMilestone] {
+    // Allow anyone (including guests) to view timeline milestones
     timelineMilestones.entries().map(func((_, milestone)) { milestone }).toArray();
   };
 
-  // Interactive Surprise API
+  // Interactive Surprise API - Admin only for modifications, users can view
   public shared ({ caller }) func setInteractiveSurpriseConfig(config : InteractiveSurpriseConfig) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can set interactive surprise config");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can set interactive surprise config");
     };
     interactiveSurpriseConfig := ?config;
   };
 
-  public query ({ caller }) func getInteractiveSurpriseConfig() : async ?InteractiveSurpriseConfig {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can view interactive surprise config");
-    };
+  public query func getInteractiveSurpriseConfig() : async ?InteractiveSurpriseConfig {
+    // Allow anyone (including guests) to view interactive surprise config
     interactiveSurpriseConfig;
   };
 
-  // Final Dedication API
+  // Final Dedication API - Admin only for modifications, users can view
   public shared ({ caller }) func setFinalDedication(dedication : FinalDedication) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can set final dedication");
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can set final dedication");
     };
     finalDedication := ?dedication;
   };
 
-  public query ({ caller }) func getFinalDedication() : async ?FinalDedication {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can view final dedication");
-    };
+  public query func getFinalDedication() : async ?FinalDedication {
+    // Allow anyone (including guests) to view final dedication
     finalDedication;
   };
 };

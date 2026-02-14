@@ -10,6 +10,12 @@ interface DragReorderListProps<T> {
 
 export default function DragReorderList<T>({ items, onReorder, renderItem, getItemId }: DragReorderListProps<T>) {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [localItems, setLocalItems] = useState<T[]>(items);
+
+  // Sync local items when props change
+  if (items !== localItems && draggedIndex === null) {
+    setLocalItems(items);
+  }
 
   const handleDragStart = (e: DragEvent, index: number) => {
     setDraggedIndex(index);
@@ -20,22 +26,27 @@ export default function DragReorderList<T>({ items, onReorder, renderItem, getIt
     e.preventDefault();
     if (draggedIndex === null || draggedIndex === index) return;
 
-    const newItems = [...items];
+    // Update local state only (visual feedback)
+    const newItems = [...localItems];
     const draggedItem = newItems[draggedIndex];
     newItems.splice(draggedIndex, 1);
     newItems.splice(index, 0, draggedItem);
 
     setDraggedIndex(index);
-    onReorder(newItems);
+    setLocalItems(newItems);
   };
 
   const handleDragEnd = () => {
+    // Only commit reorder to backend on drag end
+    if (draggedIndex !== null) {
+      onReorder(localItems);
+    }
     setDraggedIndex(null);
   };
 
   return (
     <div className="space-y-3">
-      {items.map((item, index) => (
+      {localItems.map((item, index) => (
         <div
           key={getItemId(item)}
           draggable

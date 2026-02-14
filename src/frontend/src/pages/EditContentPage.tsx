@@ -1,4 +1,6 @@
 import EditGuard from '../components/EditGuard';
+import DraftReviewSummary from '../components/DraftReviewSummary';
+import PublishingCallout from '../components/PublishingCallout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import GalleryEditor from '../components/editors/GalleryEditor';
 import LoveMessagesEditor from '../components/editors/LoveMessagesEditor';
@@ -14,13 +16,16 @@ export default function EditContentPage() {
         <div className="text-center mb-8 animate-fadeIn">
           <Edit className="w-12 h-12 text-primary mx-auto mb-4" />
           <h1 className="font-script text-4xl md:text-5xl text-primary mb-4">Edit Content</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Manage and update all your Valentine's website content
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Manage your Valentine's Day content. All changes are saved automatically.
           </p>
         </div>
 
-        <Tabs defaultValue="gallery" className="max-w-6xl mx-auto">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-8">
+        <PublishingCallout />
+        <DraftReviewSummary />
+
+        <Tabs defaultValue="gallery" className="w-full">
+          <TabsList className="grid w-full grid-cols-5 mb-8">
             <TabsTrigger value="gallery">Gallery</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
             <TabsTrigger value="timeline">Timeline</TabsTrigger>

@@ -2,198 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-create-a-fully-responsive-multipage-valentine-themed-personal-website-with-the-following-pages-home-our-memories-photo-gallery-love-messages-timeline-interactive-surprise-and-final-dedication",
-      "featureTitle": "Create a fully responsive multipage Valentine-themed personal website with the following pages: Home, “Our Memories” (Photo Gallery), Love Messages, Timeline, Interactive Surprise, and Final Dedication.",
+      "featureId": "feature-add-a-prominent-always-visible-publishing-callout-section-near-the-top-of-the-edit-content-page-that-clearly-explains-the-difference-between-saving-edits-draft-and-publishing-the-live-site-chat-level-publish-using-clear-english-text",
+      "featureTitle": "Add a prominent, always-visible \"Publishing\" callout section near the top of the Edit Content page that clearly explains the difference between saving edits (draft) and publishing the live site (chat-level publish), using clear English text.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/SiteLayout.tsx",
-        "frontend/src/components/SiteNav.tsx",
-        "frontend/src/pages/FinalDedicationPage.tsx",
-        "frontend/src/pages/HomePage.tsx",
-        "frontend/src/pages/InteractiveSurprisePage.tsx",
-        "frontend/src/pages/LoveMessagesPage.tsx",
-        "frontend/src/pages/MemoriesGalleryPage.tsx",
-        "frontend/src/pages/TimelinePage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-1"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-apply-a-cohesive-romantic-visual-theme-across-all-pages-soft-pastel-palette-pink-beige-lavender-cream-rose-gold-cute-but-classy-styling-elegant-romantic-typography-and-smooth-animations-transitions-that-feel-subtle-and-emotional",
-      "featureTitle": "Apply a cohesive romantic visual theme across all pages: soft pastel palette (pink, beige, lavender, cream, rose gold), cute-but-classy styling, elegant romantic typography, and smooth animations/transitions that feel subtle and emotional.",
-      "files": [
-        "frontend/src/components/ValentineSurface.tsx",
-        "frontend/src/index.css",
-        "frontend/tailwind.config.js"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-2"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-implement-the-home-page-with-1-a-romantic-welcome-headline-e-g-for-my-special-one-2-a-hero-section-with-an-image-background-and-3-subtle-heart-love-animations-e-g-floating-hearts-shimmer-or-gentle-particle-hearts",
-      "featureTitle": "Implement the Home page with: (1) a romantic welcome headline (e.g., “For My Special One”), (2) a hero section with an image background, and (3) subtle heart/love animations (e.g., floating hearts, shimmer, or gentle particle hearts).",
-      "files": [
-        "frontend/src/components/HeartParticles.tsx",
-        "frontend/src/pages/HomePage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-3"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-build-the-our-memories-photo-gallery-page-featuring-a-slideshow-carousel-with-smooth-animated-transitions-supporting-multiple-photos-and-showing-a-caption-under-each-photo",
-      "featureTitle": "Build the “Our Memories” Photo Gallery page featuring a slideshow/carousel with smooth animated transitions, supporting multiple photos and showing a caption under each photo.",
-      "files": [
-        "frontend/src/components/GalleryCarousel.tsx",
-        "frontend/src/pages/MemoriesGalleryPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-4"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-create-the-love-messages-page-with-multiple-message-cards-envelopes-each-message-is-click-to-open-closed-preview-state-opened-full-note-and-supports-long-personal-messages-with-comfortable-reading-layout",
-      "featureTitle": "Create the Love Messages page with multiple message cards/envelopes; each message is click-to-open (closed preview state → opened full note), and supports long personal messages with comfortable reading layout.",
-      "files": [
-        "frontend/src/components/MessageEnvelopeCard.tsx",
-        "frontend/src/pages/LoveMessagesPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-5"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-create-the-timeline-page-showing-a-journey-timeline-of-milestones-important-dates-with-each-milestone-supporting-a-date-title-description-and-optional-photo-include-interactive-affordances-expand-collapse-or-step-by-step-browsing-while-keeping-the-page-romantic-and-elegant",
-      "featureTitle": "Create the Timeline page showing a journey timeline of milestones (important dates), with each milestone supporting a date, title, description, and optional photo; include interactive affordances (expand/collapse or step-by-step browsing) while keeping the page romantic and elegant.",
-      "files": [
-        "frontend/src/components/TimelineMilestoneItem.tsx",
-        "frontend/src/pages/TimelinePage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-6"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-implement-the-interactive-surprise-page-with-1-a-surprise-button-that-triggers-a-romantic-reveal-message-animation-2-a-small-love-quiz-multiple-questions-with-results-3-flip-cards-and-4-heart-animations-on-clicks-taps-within-the-page",
-      "featureTitle": "Implement the Interactive Surprise page with: (1) a “surprise” button that triggers a romantic reveal (message/animation), (2) a small love quiz (multiple questions with results), (3) flip cards, and (4) heart animations on clicks/taps within the page.",
-      "files": [
-        "frontend/src/components/FlipCard.tsx",
-        "frontend/src/components/LoveQuiz.tsx",
-        "frontend/src/components/SurpriseReveal.tsx",
-        "frontend/src/pages/InteractiveSurprisePage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-7"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-implement-the-final-dedication-page-with-a-closing-love-note-and-a-personal-signature-section-name-sign-off-styled-consistently-with-the-overall-theme",
-      "featureTitle": "Implement the Final Dedication page with a closing love note and a personal signature section (name/sign-off), styled consistently with the overall theme.",
-      "files": [
-        "frontend/src/pages/FinalDedicationPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-8"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-provide-an-easy-in-app-editing-experience-to-update-photos-captions-memories-timeline-milestones-and-love-letters-messages-including-drag-and-drop-interactions-where-appropriate-e-g-reordering-gallery-items-and-message-cards",
-      "featureTitle": "Provide an easy in-app editing experience to update photos, captions, memories, timeline milestones, and love letters/messages, including drag-and-drop interactions where appropriate (e.g., reordering gallery items and message cards).",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/DragReorderList.tsx",
-        "frontend/src/components/EditGuard.tsx",
-        "frontend/src/components/LoginButton.tsx",
-        "frontend/src/components/ProfileSetupModal.tsx",
-        "frontend/src/components/SiteNav.tsx",
-        "frontend/src/components/editors/DedicationEditor.tsx",
-        "frontend/src/components/editors/GalleryEditor.tsx",
-        "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
-        "frontend/src/components/editors/LoveMessagesEditor.tsx",
-        "frontend/src/components/editors/TimelineEditor.tsx",
-        "frontend/src/hooks/useEditMutations.ts",
+        "frontend/src/components/PublishingCallout.tsx",
         "frontend/src/pages/EditContentPage.tsx"
       ],
       "components": [
@@ -206,7 +18,27 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-9"
+        "REQ-14"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-the-publishing-callout-include-a-clear-user-action-that-helps-users-reliably-trigger-the-correct-publish-flow-when-the-chat-level-publish-button-fails-to-appear-without-changing-any-site-content",
+      "featureTitle": "In the Publishing callout, include a clear user action that helps users reliably trigger the correct publish flow when the chat-level Publish button fails to appear, without changing any site content.",
+      "files": [
+        "frontend/src/components/PublishingCallout.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
       ],
       "confidence": "high"
     }
