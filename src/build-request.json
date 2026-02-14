@@ -1,0 +1,211 @@
+{
+  "kind": "build_request",
+  "title": "Multipage Valentine-themed personal website with editable gallery, messages, timeline, and surprises",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a fully responsive multipage Valentine-themed personal website with the following pages: Home, “Our Memories” (Photo Gallery), Love Messages, Timeline, Interactive Surprise, and Final Dedication.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Create a multipage Valentine themed personal website… Required Pages & Sections: Home Page… Photo Gallery… Love Messages Page… Timeline Page… Interactive Surprise Page… Final Dedication Page"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Navigation exists to access all required pages on both mobile and desktop.",
+        "Layout is fully responsive (no horizontal scroll on common phone widths) and remains readable on large screens.",
+        "All user-facing text is in English."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Apply a cohesive romantic visual theme across all pages: soft pastel palette (pink, beige, lavender, cream, rose gold), cute-but-classy styling, elegant romantic typography, and smooth animations/transitions that feel subtle and emotional.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Soft pastel color palette (pink, beige, lavender, cream, rose gold). Cute but classy aesthetic. Smooth animations and transitions. Elegant romantic fonts."
+        ]
+      },
+      "acceptanceCriteria": [
+        "A consistent color system (including rose-gold accents) is used across components and pages.",
+        "Animations/transitions are present on page load and key interactions, and are subtle (no distracting motion).",
+        "Typography uses romantic/elegant fonts (with sensible fallbacks) and remains accessible/readable."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement the Home page with: (1) a romantic welcome headline (e.g., “For My Special One”), (2) a hero section with an image background, and (3) subtle heart/love animations (e.g., floating hearts, shimmer, or gentle particle hearts).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Home Page Romantic welcome message (e.g., ‘For My Special One’). Beautiful hero section with image background. Subtle heart or love animations."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Home page shows a hero section with a background image and an English romantic welcome message.",
+        "At least one subtle heart/love animation is visible on the Home page.",
+        "Animations remain performant on mobile (no obvious jank during scrolling)."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build the “Our Memories” Photo Gallery page featuring a slideshow/carousel with smooth animated transitions, supporting multiple photos and showing a caption under each photo.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Photo Gallery – “Our Memories” Slideshow or carousel gallery. Ability to upload multiple personal photos. Captions under each picture. Smooth animated transitions."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Gallery displays photos in a carousel/slideshow with previous/next controls and smooth transitions.",
+        "Each photo displays a caption beneath it.",
+        "The gallery works on touch devices (swipe or tap controls)."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Create the Love Messages page with multiple message cards/envelopes; each message is click-to-open (closed preview state → opened full note), and supports long personal messages with comfortable reading layout.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Love Messages Page Multiple message cards or envelopes. Click-to-open style notes. Space to add long personal messages."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Messages appear as multiple cards/envelopes in a grid/list appropriate for screen size.",
+        "Clicking/tapping a message toggles open/close with an animation.",
+        "Long messages are scrollable/expandable and remain readable on mobile."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Create the Timeline page showing a journey timeline of milestones (important dates), with each milestone supporting a date, title, description, and optional photo; include interactive affordances (expand/collapse or step-by-step browsing) while keeping the page romantic and elegant.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Timeline Page A journey timeline with important dates. Option to add photos and descriptions for each milestone."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Timeline renders a chronological list of milestones with date and description visible.",
+        "Each milestone can optionally show a photo.",
+        "Timeline is usable on mobile (no cramped layout; milestones stack vertically)."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Implement the Interactive Surprise page with: (1) a “surprise” button that triggers a romantic reveal (message/animation), (2) a small love quiz (multiple questions with results), (3) flip cards, and (4) heart animations on clicks/taps within the page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Interactive Surprise Page Fun interactive elements like: A surprise button Love quiz Flip cards Heart animations on clicks"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Surprise button triggers a visible reveal interaction (text and/or animation).",
+        "Quiz supports at least 3 questions, tracks answers, and shows a result/summary at the end.",
+        "Flip cards animate between front/back states on click/tap.",
+        "Clicking/tapping in designated areas triggers heart animations."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Implement the Final Dedication page with a closing love note and a personal signature section (name/sign-off), styled consistently with the overall theme.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Final Dedication Page A closing love note. Personal signature section."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Final Dedication page includes a closing note area and a signature/sign-off area.",
+        "Typography and spacing make the note feel like a final, emotional dedication.",
+        "Page remains fully responsive."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Provide an easy in-app editing experience to update photos, captions, memories, timeline milestones, and love letters/messages, including drag-and-drop interactions where appropriate (e.g., reordering gallery items and message cards).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Functional Requirements Easy drag-and-drop editing. Ability for me to update photos and memories and letter"
+        ]
+      },
+      "acceptanceCriteria": [
+        "There is a clearly discoverable “Edit” mode/page in the UI for managing content.",
+        "Gallery items can be added/removed and reordered via drag-and-drop; captions are editable.",
+        "Love messages can be added/removed and reordered via drag-and-drop; message text supports long content editing.",
+        "Timeline milestones can be added/edited/removed and reordered; each milestone supports date/title/description and optional photo.",
+        "Edits persist across page reloads (stored in the canister backend)."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Implement backend persistence APIs in the single Motoko main actor to store and retrieve all editable content: gallery items (image + caption + ordering), love messages (title/preview + full text + ordering), timeline milestones (date/title/description/photo + ordering), Home/Final Dedication text fields, and Interactive Surprise page configuration (quiz questions/results and flip card content).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Ability for me to update photos and memories and letter",
+          "Love quiz",
+          "Flip cards"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes query/update methods to read/write all content types required by the pages.",
+        "Frontend uses the backend APIs to load content on page load and to save edits from the editor UI.",
+        "Data remains available after refresh and canister redeploy (stable persistence as appropriate for the template)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (no additional backend services).",
+    "Do not edit files in frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui (compose these instead).",
+    "Use React + TypeScript with Tailwind, shadcn/ui composition, and React Query for data fetching/caching."
+  ],
+  "nonGoals": [
+    "Third-party authentication providers (only Internet Identity is allowed if authentication is needed).",
+    "Real-time chat, push notifications, or WebSocket-based features.",
+    "External database integrations (must store data in the canister)."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Pastel romantic hero background with soft bokeh and subtle heart shapes (valentine-hero-bg.dim_1920x1080.png)",
+      "Seamless pastel heart pattern background, minimal and elegant (valentine-heart-pattern.dim_1024x1024.png)",
+      "Rose-gold foil style divider/ornament line, elegant flourish (rose-gold-divider.dim_1600x200.png)",
+      "Cute classy envelope illustration, minimal vector-like style (love-envelope-icon.dim_512x512.png)"
+    ],
+    "edits": []
+  }
+}
