@@ -1,10 +1,12 @@
-import { useGetAllGalleryItems, useGetAllLoveMessages } from '../hooks/useQueries';
-import { Heart, Image, Clock } from 'lucide-react';
+import { useGetDraftGalleryItems, useGetDraftLoveMessages } from '../hooks/useQueries';
+import { useContentVersion } from '../hooks/useContentVersion';
+import { Heart, Image, Clock, GitBranch } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function DraftReviewSummary() {
-  const { data: galleryItems, isLoading: galleryLoading, isFetched: galleryFetched } = useGetAllGalleryItems();
-  const { data: loveMessages, isLoading: messagesLoading, isFetched: messagesFetched } = useGetAllLoveMessages();
+  const { data: galleryItems, isLoading: galleryLoading, isFetched: galleryFetched } = useGetDraftGalleryItems();
+  const { data: loveMessages, isLoading: messagesLoading, isFetched: messagesFetched } = useGetDraftLoveMessages();
+  const { activeVersion } = useContentVersion();
   const [lastLoaded, setLastLoaded] = useState<Date | null>(null);
 
   const isLoading = galleryLoading || messagesLoading;
@@ -24,6 +26,10 @@ export default function DraftReviewSummary() {
       <div className="flex items-center gap-2 mb-4">
         <Heart className="w-5 h-5 text-primary" />
         <h2 className="text-xl font-semibold text-foreground">Draft Review</h2>
+        <span className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground font-mono bg-background/50 px-2 py-1 rounded">
+          <GitBranch className="w-3 h-3" />
+          {activeVersion}
+        </span>
       </div>
 
       {isLoading ? (

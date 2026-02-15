@@ -1,9 +1,10 @@
-import { useGetAllGalleryItems } from '../hooks/useQueries';
+import { useGetPublishedGalleryItems } from '../hooks/useQueries';
 import GalleryCarousel from '../components/GalleryCarousel';
-import { Heart, Image as ImageIcon } from 'lucide-react';
+import { Heart, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default function MemoriesGalleryPage() {
-  const { data: galleryItems, isLoading } = useGetAllGalleryItems();
+  const { data: galleryItems, isLoading, isPublished, isError } = useGetPublishedGalleryItems();
 
   const sortedItems = galleryItems
     ? [...galleryItems].sort((a, b) => Number(a.order) - Number(b.order))
@@ -27,12 +28,27 @@ export default function MemoriesGalleryPage() {
         </p>
       </div>
 
-      {sortedItems.length === 0 ? (
+      {isError && (
+        <div className="max-w-2xl mx-auto mb-8">
+          <Alert className="border-destructive/30 bg-destructive/5">
+            <AlertCircle className="h-4 w-4 text-destructive" />
+            <AlertDescription className="text-destructive">
+              Unable to load gallery content. Please try refreshing the page.
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+
+      {!isError && (!isPublished || sortedItems.length === 0) ? (
         <div className="text-center py-16">
           <ImageIcon className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" />
-          <p className="text-muted-foreground">No memories yet. Start adding photos to create your gallery!</p>
+          <p className="text-muted-foreground">
+            {!isPublished 
+              ? 'No published content yet. The site owner needs to publish their content first.' 
+              : 'No memories published yet.'}
+          </p>
         </div>
-      ) : (
+      ) : !isError && (
         <GalleryCarousel items={sortedItems} />
       )}
     </div>

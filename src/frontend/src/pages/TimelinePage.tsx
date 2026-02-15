@@ -1,9 +1,10 @@
-import { useGetAllTimelineMilestones } from '../hooks/useQueries';
+import { useGetPublishedTimelineMilestones } from '../hooks/useQueries';
 import TimelineMilestoneItem from '../components/TimelineMilestoneItem';
-import { Heart, Clock } from 'lucide-react';
+import { Heart, Clock, AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default function TimelinePage() {
-  const { data: milestones, isLoading } = useGetAllTimelineMilestones();
+  const { data: milestones, isLoading, isPublished, isError } = useGetPublishedTimelineMilestones();
 
   const sortedMilestones = milestones
     ? [...milestones].sort((a, b) => Number(a.date) - Number(b.date))
@@ -27,12 +28,27 @@ export default function TimelinePage() {
         </p>
       </div>
 
-      {sortedMilestones.length === 0 ? (
+      {isError && (
+        <div className="max-w-2xl mx-auto mb-8">
+          <Alert className="border-destructive/30 bg-destructive/5">
+            <AlertCircle className="h-4 w-4 text-destructive" />
+            <AlertDescription className="text-destructive">
+              Unable to load timeline content. Please try refreshing the page.
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+
+      {!isError && (!isPublished || sortedMilestones.length === 0) ? (
         <div className="text-center py-16">
           <Clock className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" />
-          <p className="text-muted-foreground">No milestones yet. Start documenting your journey!</p>
+          <p className="text-muted-foreground">
+            {!isPublished 
+              ? 'No published content yet. The site owner needs to publish their content first.' 
+              : 'No milestones published yet.'}
+          </p>
         </div>
-      ) : (
+      ) : !isError && (
         <div className="max-w-4xl mx-auto">
           <div className="relative">
             {/* Timeline line */}

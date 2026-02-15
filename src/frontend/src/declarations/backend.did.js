@@ -26,32 +26,7 @@ export const UserRole = IDL.Variant({
   'user' : IDL.Null,
   'guest' : IDL.Null,
 });
-export const GalleryItem = IDL.Record({
-  'id' : IDL.Text,
-  'order' : IDL.Nat,
-  'caption' : IDL.Text,
-  'image' : ExternalBlob,
-});
-export const LoveMessage = IDL.Record({
-  'id' : IDL.Text,
-  'title' : IDL.Text,
-  'order' : IDL.Nat,
-  'preview' : IDL.Text,
-  'fullText' : IDL.Text,
-});
-export const TimelineMilestone = IDL.Record({
-  'id' : IDL.Text,
-  'title' : IDL.Text,
-  'order' : IDL.Nat,
-  'date' : Time,
-  'description' : IDL.Text,
-  'photo' : IDL.Opt(ExternalBlob),
-});
 export const UserProfile = IDL.Record({ 'name' : IDL.Text });
-export const FinalDedication = IDL.Record({
-  'title' : IDL.Text,
-  'message' : IDL.Text,
-});
 export const QuizQuestion = IDL.Record({
   'question' : IDL.Text,
   'correctAnswer' : IDL.Text,
@@ -61,6 +36,36 @@ export const FlipCard = IDL.Record({ 'front' : IDL.Text, 'back' : IDL.Text });
 export const InteractiveSurpriseConfig = IDL.Record({
   'quizQuestions' : IDL.Vec(QuizQuestion),
   'flipCards' : IDL.Vec(FlipCard),
+});
+export const GalleryItem = IDL.Record({
+  'id' : IDL.Text,
+  'order' : IDL.Nat,
+  'caption' : IDL.Text,
+  'image' : ExternalBlob,
+});
+export const TimelineMilestone = IDL.Record({
+  'id' : IDL.Text,
+  'title' : IDL.Text,
+  'order' : IDL.Nat,
+  'date' : Time,
+  'description' : IDL.Text,
+  'photo' : IDL.Opt(ExternalBlob),
+});
+export const LoveMessage = IDL.Record({
+  'id' : IDL.Text,
+  'title' : IDL.Text,
+  'order' : IDL.Nat,
+  'preview' : IDL.Text,
+  'fullText' : IDL.Text,
+});
+export const FinalDedication = IDL.Record({
+  'title' : IDL.Text,
+  'message' : IDL.Text,
+});
+export const PublishStatus = IDL.Record({
+  'isPublished' : IDL.Bool,
+  'lastPublished' : IDL.Opt(Time),
+  'draftLastUpdated' : IDL.Opt(Time),
 });
 
 export const idlService = IDL.Service({
@@ -92,37 +97,63 @@ export const idlService = IDL.Service({
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'addGalleryItem' : IDL.Func(
-      [IDL.Text, ExternalBlob, IDL.Text, IDL.Nat],
+      [IDL.Text, IDL.Text, ExternalBlob, IDL.Text, IDL.Nat],
       [],
       [],
     ),
   'addLoveMessage' : IDL.Func(
-      [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Nat],
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Nat],
       [],
       [],
     ),
   'addTimelineMilestone' : IDL.Func(
-      [IDL.Text, Time, IDL.Text, IDL.Text, IDL.Opt(ExternalBlob), IDL.Nat],
+      [
+        IDL.Text,
+        IDL.Text,
+        Time,
+        IDL.Text,
+        IDL.Text,
+        IDL.Opt(ExternalBlob),
+        IDL.Nat,
+      ],
       [],
       [],
     ),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-  'deleteGalleryItem' : IDL.Func([IDL.Text], [], []),
-  'deleteLoveMessage' : IDL.Func([IDL.Text], [], []),
-  'deleteTimelineMilestone' : IDL.Func([IDL.Text], [], []),
-  'getAllGalleryItems' : IDL.Func([], [IDL.Vec(GalleryItem)], ['query']),
-  'getAllLoveMessages' : IDL.Func([], [IDL.Vec(LoveMessage)], ['query']),
-  'getAllTimelineMilestones' : IDL.Func(
-      [],
-      [IDL.Vec(TimelineMilestone)],
-      ['query'],
-    ),
+  'deleteGalleryItem' : IDL.Func([IDL.Text, IDL.Text], [], []),
+  'deleteLoveMessage' : IDL.Func([IDL.Text, IDL.Text], [], []),
+  'deleteTimelineMilestone' : IDL.Func([IDL.Text, IDL.Text], [], []),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-  'getFinalDedication' : IDL.Func([], [IDL.Opt(FinalDedication)], ['query']),
-  'getInteractiveSurpriseConfig' : IDL.Func(
-      [],
-      [IDL.Opt(InteractiveSurpriseConfig)],
+  'getDraftContent' : IDL.Func(
+      [IDL.Text],
+      [
+        IDL.Opt(
+          IDL.Record({
+            'interactiveSurpriseConfig' : IDL.Opt(InteractiveSurpriseConfig),
+            'galleryItems' : IDL.Vec(GalleryItem),
+            'timelineMilestones' : IDL.Vec(TimelineMilestone),
+            'loveMessages' : IDL.Vec(LoveMessage),
+            'finalDedication' : IDL.Opt(FinalDedication),
+          })
+        ),
+      ],
+      ['query'],
+    ),
+  'getPublishStatus' : IDL.Func([IDL.Text], [PublishStatus], ['query']),
+  'getPublishedContent' : IDL.Func(
+      [IDL.Text],
+      [
+        IDL.Opt(
+          IDL.Record({
+            'interactiveSurpriseConfig' : IDL.Opt(InteractiveSurpriseConfig),
+            'galleryItems' : IDL.Vec(GalleryItem),
+            'timelineMilestones' : IDL.Vec(TimelineMilestone),
+            'loveMessages' : IDL.Vec(LoveMessage),
+            'finalDedication' : IDL.Opt(FinalDedication),
+          })
+        ),
+      ],
       ['query'],
     ),
   'getUserProfile' : IDL.Func(
@@ -130,27 +161,33 @@ export const idlService = IDL.Service({
       [IDL.Opt(UserProfile)],
       ['query'],
     ),
+  'getVersions' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'publishDraft' : IDL.Func([IDL.Text], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
-  'setFinalDedication' : IDL.Func([FinalDedication], [], []),
+  'setFinalDedication' : IDL.Func([IDL.Text, FinalDedication], [], []),
   'setInteractiveSurpriseConfig' : IDL.Func(
-      [InteractiveSurpriseConfig],
+      [IDL.Text, InteractiveSurpriseConfig],
       [],
       [],
     ),
-  'updateGalleryItemOrder' : IDL.Func([IDL.Text, IDL.Nat], [], []),
+  'updateGalleryItemOrder' : IDL.Func([IDL.Text, IDL.Text, IDL.Nat], [], []),
   'updateLoveMessage' : IDL.Func(
-      [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Text],
       [],
       [],
     ),
-  'updateLoveMessageOrder' : IDL.Func([IDL.Text, IDL.Nat], [], []),
+  'updateLoveMessageOrder' : IDL.Func([IDL.Text, IDL.Text, IDL.Nat], [], []),
   'updateTimelineMilestone' : IDL.Func(
-      [IDL.Text, Time, IDL.Text, IDL.Text, IDL.Opt(ExternalBlob)],
+      [IDL.Text, IDL.Text, Time, IDL.Text, IDL.Text, IDL.Opt(ExternalBlob)],
       [],
       [],
     ),
-  'updateTimelineMilestoneOrder' : IDL.Func([IDL.Text, IDL.Nat], [], []),
+  'updateTimelineMilestoneOrder' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Nat],
+      [],
+      [],
+    ),
 });
 
 export const idlInitArgs = [];
@@ -174,32 +211,7 @@ export const idlFactory = ({ IDL }) => {
     'user' : IDL.Null,
     'guest' : IDL.Null,
   });
-  const GalleryItem = IDL.Record({
-    'id' : IDL.Text,
-    'order' : IDL.Nat,
-    'caption' : IDL.Text,
-    'image' : ExternalBlob,
-  });
-  const LoveMessage = IDL.Record({
-    'id' : IDL.Text,
-    'title' : IDL.Text,
-    'order' : IDL.Nat,
-    'preview' : IDL.Text,
-    'fullText' : IDL.Text,
-  });
-  const TimelineMilestone = IDL.Record({
-    'id' : IDL.Text,
-    'title' : IDL.Text,
-    'order' : IDL.Nat,
-    'date' : Time,
-    'description' : IDL.Text,
-    'photo' : IDL.Opt(ExternalBlob),
-  });
   const UserProfile = IDL.Record({ 'name' : IDL.Text });
-  const FinalDedication = IDL.Record({
-    'title' : IDL.Text,
-    'message' : IDL.Text,
-  });
   const QuizQuestion = IDL.Record({
     'question' : IDL.Text,
     'correctAnswer' : IDL.Text,
@@ -209,6 +221,36 @@ export const idlFactory = ({ IDL }) => {
   const InteractiveSurpriseConfig = IDL.Record({
     'quizQuestions' : IDL.Vec(QuizQuestion),
     'flipCards' : IDL.Vec(FlipCard),
+  });
+  const GalleryItem = IDL.Record({
+    'id' : IDL.Text,
+    'order' : IDL.Nat,
+    'caption' : IDL.Text,
+    'image' : ExternalBlob,
+  });
+  const TimelineMilestone = IDL.Record({
+    'id' : IDL.Text,
+    'title' : IDL.Text,
+    'order' : IDL.Nat,
+    'date' : Time,
+    'description' : IDL.Text,
+    'photo' : IDL.Opt(ExternalBlob),
+  });
+  const LoveMessage = IDL.Record({
+    'id' : IDL.Text,
+    'title' : IDL.Text,
+    'order' : IDL.Nat,
+    'preview' : IDL.Text,
+    'fullText' : IDL.Text,
+  });
+  const FinalDedication = IDL.Record({
+    'title' : IDL.Text,
+    'message' : IDL.Text,
+  });
+  const PublishStatus = IDL.Record({
+    'isPublished' : IDL.Bool,
+    'lastPublished' : IDL.Opt(Time),
+    'draftLastUpdated' : IDL.Opt(Time),
   });
   
   return IDL.Service({
@@ -240,37 +282,63 @@ export const idlFactory = ({ IDL }) => {
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'addGalleryItem' : IDL.Func(
-        [IDL.Text, ExternalBlob, IDL.Text, IDL.Nat],
+        [IDL.Text, IDL.Text, ExternalBlob, IDL.Text, IDL.Nat],
         [],
         [],
       ),
     'addLoveMessage' : IDL.Func(
-        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Nat],
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Nat],
         [],
         [],
       ),
     'addTimelineMilestone' : IDL.Func(
-        [IDL.Text, Time, IDL.Text, IDL.Text, IDL.Opt(ExternalBlob), IDL.Nat],
+        [
+          IDL.Text,
+          IDL.Text,
+          Time,
+          IDL.Text,
+          IDL.Text,
+          IDL.Opt(ExternalBlob),
+          IDL.Nat,
+        ],
         [],
         [],
       ),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-    'deleteGalleryItem' : IDL.Func([IDL.Text], [], []),
-    'deleteLoveMessage' : IDL.Func([IDL.Text], [], []),
-    'deleteTimelineMilestone' : IDL.Func([IDL.Text], [], []),
-    'getAllGalleryItems' : IDL.Func([], [IDL.Vec(GalleryItem)], ['query']),
-    'getAllLoveMessages' : IDL.Func([], [IDL.Vec(LoveMessage)], ['query']),
-    'getAllTimelineMilestones' : IDL.Func(
-        [],
-        [IDL.Vec(TimelineMilestone)],
-        ['query'],
-      ),
+    'deleteGalleryItem' : IDL.Func([IDL.Text, IDL.Text], [], []),
+    'deleteLoveMessage' : IDL.Func([IDL.Text, IDL.Text], [], []),
+    'deleteTimelineMilestone' : IDL.Func([IDL.Text, IDL.Text], [], []),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-    'getFinalDedication' : IDL.Func([], [IDL.Opt(FinalDedication)], ['query']),
-    'getInteractiveSurpriseConfig' : IDL.Func(
-        [],
-        [IDL.Opt(InteractiveSurpriseConfig)],
+    'getDraftContent' : IDL.Func(
+        [IDL.Text],
+        [
+          IDL.Opt(
+            IDL.Record({
+              'interactiveSurpriseConfig' : IDL.Opt(InteractiveSurpriseConfig),
+              'galleryItems' : IDL.Vec(GalleryItem),
+              'timelineMilestones' : IDL.Vec(TimelineMilestone),
+              'loveMessages' : IDL.Vec(LoveMessage),
+              'finalDedication' : IDL.Opt(FinalDedication),
+            })
+          ),
+        ],
+        ['query'],
+      ),
+    'getPublishStatus' : IDL.Func([IDL.Text], [PublishStatus], ['query']),
+    'getPublishedContent' : IDL.Func(
+        [IDL.Text],
+        [
+          IDL.Opt(
+            IDL.Record({
+              'interactiveSurpriseConfig' : IDL.Opt(InteractiveSurpriseConfig),
+              'galleryItems' : IDL.Vec(GalleryItem),
+              'timelineMilestones' : IDL.Vec(TimelineMilestone),
+              'loveMessages' : IDL.Vec(LoveMessage),
+              'finalDedication' : IDL.Opt(FinalDedication),
+            })
+          ),
+        ],
         ['query'],
       ),
     'getUserProfile' : IDL.Func(
@@ -278,27 +346,33 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Opt(UserProfile)],
         ['query'],
       ),
+    'getVersions' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'publishDraft' : IDL.Func([IDL.Text], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
-    'setFinalDedication' : IDL.Func([FinalDedication], [], []),
+    'setFinalDedication' : IDL.Func([IDL.Text, FinalDedication], [], []),
     'setInteractiveSurpriseConfig' : IDL.Func(
-        [InteractiveSurpriseConfig],
+        [IDL.Text, InteractiveSurpriseConfig],
         [],
         [],
       ),
-    'updateGalleryItemOrder' : IDL.Func([IDL.Text, IDL.Nat], [], []),
+    'updateGalleryItemOrder' : IDL.Func([IDL.Text, IDL.Text, IDL.Nat], [], []),
     'updateLoveMessage' : IDL.Func(
-        [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text, IDL.Text],
         [],
         [],
       ),
-    'updateLoveMessageOrder' : IDL.Func([IDL.Text, IDL.Nat], [], []),
+    'updateLoveMessageOrder' : IDL.Func([IDL.Text, IDL.Text, IDL.Nat], [], []),
     'updateTimelineMilestone' : IDL.Func(
-        [IDL.Text, Time, IDL.Text, IDL.Text, IDL.Opt(ExternalBlob)],
+        [IDL.Text, IDL.Text, Time, IDL.Text, IDL.Text, IDL.Opt(ExternalBlob)],
         [],
         [],
       ),
-    'updateTimelineMilestoneOrder' : IDL.Func([IDL.Text, IDL.Nat], [], []),
+    'updateTimelineMilestoneOrder' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Nat],
+        [],
+        [],
+      ),
   });
 };
 

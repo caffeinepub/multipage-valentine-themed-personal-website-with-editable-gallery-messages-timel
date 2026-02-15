@@ -206,3 +206,25 @@ export function getSecretFromHash(paramName: string): string | null {
 export function getSecretParameter(paramName: string): string | null {
     return getSecretFromHash(paramName);
 }
+
+/**
+ * Builds a shareable URL for a specific content version
+ * Returns a URL in the form: ${origin}/?v=${version}
+ *
+ * @param version - The content version to include in the URL
+ * @returns The complete shareable URL with version parameter
+ */
+export function buildShareUrl(version: string): string {
+    const origin = window.location.origin;
+    return `${origin}/?v=${version}`;
+}
+
+/**
+ * Extracts the version parameter from the current URL
+ * Convenience wrapper around getUrlParameter for the 'v' parameter
+ *
+ * @returns The version string if found in URL, null otherwise
+ */
+export function getVersionFromUrl(): string | null {
+    return getUrlParameter('v');
+}

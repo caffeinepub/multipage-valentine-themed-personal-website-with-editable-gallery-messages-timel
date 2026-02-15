@@ -7,10 +7,18 @@
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-ensure-the-existing-edit-content-ui-works-end-to-end-for-authenticated-users-after-the-permission-change-including-successful-saves-and-automatic-list-refresh-via-react-query-invalidation",
-      "title": "Ensure the existing Edit Content UI works end-to-end for authenticated users after the permission change, including successful saves and automatic list refresh via React Query invalidation.",
+      "id": "feature-add-a-clear-go-live-guidance-section-in-the-editor-experience-that-explains-in-app-the-exact-steps-to-make-the-current-content-version-publicly-visible-and-shareable-publish-the-draft-then-copy-share-the-version-specific-link",
+      "title": "Add a clear “Go Live” guidance section in the editor experience that explains, in-app, the exact steps to make the current content version publicly visible and shareable (publish the draft, then copy/share the version-specific link).",
       "reqIds": [
-        "REQ-2"
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-the-publishing-ui-to-reduce-confusion-about-whether-the-current-version-is-live-by-showing-a-prominent-status-indicator-for-the-active-version-e-g-not-published-yet-vs-live-and-providing-a-one-click-action-to-copy-the-correct-share-link-even-after-the-success-toast-alert-is-dismissed",
+      "title": "Improve the publishing UI to reduce confusion about whether the current version is live by showing a prominent status indicator for the active version (e.g., “Not published yet” vs “Live”) and providing a one-click action to copy the correct share link even after the success toast/alert is dismissed.",
+      "reqIds": [
+        "REQ-6"
       ],
       "version": 1
     }
@@ -18,20 +26,20 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Make the draft/build editable (enable editing capability for the deployed draft version)",
+      "summary": "Provide steps/process to make the app live (fully shareable/deployed)",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-2",
-      "summary": "Make the deployed draft content editable for any authenticated Internet Identity user by removing the current admin-only restriction on content modification methods (gallery, love messages, timeline milestones, interactive surprise config, and final dedication). Editing access should require a logged-in identity, but must not require the caller to be an admin.",
+      "id": "AR-4",
+      "summary": "Update backend publish-status tracking to be version-specific so the frontend can accurately display “live” status for the currently active version, rather than a single global publish timestamp for all versions.",
       "reqIds": [
-        "REQ-1"
+        "REQ-7"
       ],
       "status": "pending"
     }
   ],
-  "projectName": "Enable editing for the deployed draft (remove admin-only restriction)",
+  "projectName": "Add in-app guidance to make a published version “live” and shareable",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

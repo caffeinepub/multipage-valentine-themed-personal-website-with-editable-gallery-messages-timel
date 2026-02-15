@@ -1,56 +1,85 @@
 {
   "kind": "build_request",
-  "title": "Enable editing for the deployed draft (remove admin-only restriction)",
+  "title": "Add in-app guidance to make a published version “live” and shareable",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Make the deployed draft content editable for any authenticated Internet Identity user by removing the current admin-only restriction on content modification methods (gallery, love messages, timeline milestones, interactive surprise config, and final dedication). Editing access should require a logged-in identity, but must not require the caller to be an admin.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "make it editable"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A logged-in Internet Identity user can successfully call add/update/delete/reorder methods for gallery items, love messages, and timeline milestones without receiving \"Unauthorized: Only admins...\" traps.",
-        "A logged-in Internet Identity user can successfully call setInteractiveSurpriseConfig and setFinalDedication without receiving \"Unauthorized: Only admins...\" traps.",
-        "Unauthenticated (guest) callers still cannot call any content-modification methods and receive an authorization error/trap.",
-        "All existing query (read-only) methods remain publicly accessible as they are now (e.g., getAllGalleryItems, getAllLoveMessages, getAllTimelineMilestones, getInteractiveSurpriseConfig, getFinalDedication)."
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Ensure the existing Edit Content UI works end-to-end for authenticated users after the permission change, including successful saves and automatic list refresh via React Query invalidation.",
+      "id": "REQ-5",
+      "text": "Add a clear “Go Live” guidance section in the editor experience that explains, in-app, the exact steps to make the current content version publicly visible and shareable (publish the draft, then copy/share the version-specific link).",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "make it editable"
+          "how to make it live"
         ]
       },
       "acceptanceCriteria": [
-        "After logging in, the user can use the Edit Content page tabs (Gallery, Messages, Timeline, Dedication, Surprise) to make changes and save them successfully without authorization failures.",
-        "After a successful create/update/delete/reorder action, the corresponding list in the UI refreshes to reflect the latest state (no manual page refresh required)."
+        "On the Edit page, users can see a short step-by-step checklist describing how to make the site live for the currently selected version.",
+        "The guidance uses English user-facing text and explicitly mentions that publishing is required before visitors can see updates.",
+        "The guidance references and matches the existing version-specific share link behavior (URL includes ?v=<version>)."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Improve the publishing UI to reduce confusion about whether the current version is live by showing a prominent status indicator for the active version (e.g., “Not published yet” vs “Live”) and providing a one-click action to copy the correct share link even after the success toast/alert is dismissed.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "how to make it live"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When viewing /edit, the user can always find the share link for the active version (not only immediately after a successful publish).",
+        "The UI clearly indicates whether the active version is currently published (live) or not.",
+        "Copying the link copies a URL in the form `${origin}/?v=${activeVersion}` (using the existing `buildShareUrl`)."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Update backend publish-status tracking to be version-specific so the frontend can accurately display “live” status for the currently active version, rather than a single global publish timestamp for all versions.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "how to make it live"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend stores and returns publish status per version (at minimum: isPublished + lastPublished + draftLastUpdated for a given version).",
+        "Publishing version A does not cause version B to appear published unless B was published.",
+        "Existing publish workflow continues to work for current users; no auth requirements are added to public viewing endpoints."
       ]
     }
   ],
   "constraints": [
-    "Backend must remain a single-actor Motoko canister with all logic in backend/main.mo (no additional backend services).",
-    "Do not edit frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui."
+    "Backend must remain a single Motoko actor in backend/main.mo.",
+    "Only generate backend/migration.mo if required to preserve existing stable state across upgrades (conditional migration policy).",
+    "Do not edit any files under frontend/src/components/ui or any path listed in frontend.immutablePaths."
   ],
   "nonGoals": [
-    "Adding third-party authentication providers (only Internet Identity is supported).",
-    "Implementing real-time collaboration or multi-user concurrent editing.",
-    "Introducing external databases or off-chain storage beyond the existing blob storage mixin."
+    "Adding external hosting/deployment providers or non-Internet-Computer deployment steps.",
+    "Adding third-party authentication (only Internet Identity is allowed).",
+    "Introducing real-time features (WebSockets, push notifications, etc.)."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

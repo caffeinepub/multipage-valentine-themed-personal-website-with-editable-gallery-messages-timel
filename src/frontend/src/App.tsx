@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createRouter, RouterProvider, createRoute, createRootRoute, Outlet } from '@tanstack/react-router';
 import SiteLayout from './components/SiteLayout';
 import HomePage from './pages/HomePage';
@@ -7,6 +8,8 @@ import TimelinePage from './pages/TimelinePage';
 import InteractiveSurprisePage from './pages/InteractiveSurprisePage';
 import FinalDedicationPage from './pages/FinalDedicationPage';
 import EditContentPage from './pages/EditContentPage';
+import { useContentVersion } from './hooks/useContentVersion';
+import { getVersionFromUrl } from './utils/urlParams';
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -70,6 +73,20 @@ const routeTree = rootRoute.addChildren([
 
 const router = createRouter({ routeTree });
 
-export default function App() {
+function AppInitializer() {
+  const { initializeFromUrl } = useContentVersion();
+
+  useEffect(() => {
+    // Initialize version from URL on first load
+    const urlVersion = getVersionFromUrl();
+    if (urlVersion) {
+      initializeFromUrl(urlVersion);
+    }
+  }, [initializeFromUrl]);
+
   return <RouterProvider router={router} />;
+}
+
+export default function App() {
+  return <AppInitializer />;
 }

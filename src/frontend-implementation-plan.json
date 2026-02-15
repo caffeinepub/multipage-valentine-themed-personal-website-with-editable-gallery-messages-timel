@@ -1,65 +1,57 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Restore end-to-end Edit Content flows for authenticated users",
+  "title": "In-app Go Live guidance and version-specific publishing status UI",
   "requirements": [
     {
-      "id": "REQ-2",
-      "summary": "Ensure Edit Content tabs can create/update/delete/reorder and automatically refresh data for authenticated users without authorization failures.",
+      "id": "REQ-5",
+      "summary": "Add an in-editor “Go Live” guidance checklist that explains publishing and sharing the version-specific link for the active version.",
       "acceptanceCriteria": [
-        "After logging in, the user can use the Edit Content page tabs (Gallery, Messages, Timeline, Dedication, Surprise) to make changes and save them successfully without authorization failures.",
-        "After a successful create/update/delete/reorder action, the corresponding list in the UI refreshes to reflect the latest state (no manual page refresh required)."
+        "On the Edit page, users can see a short step-by-step checklist describing how to make the site live for the currently selected version.",
+        "The guidance uses English user-facing text and explicitly mentions that publishing is required before visitors can see updates.",
+        "The guidance references and matches the existing version-specific share link behavior (URL includes ?v=<version>)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/useEditMutations.ts",
-          "operation": "modify",
-          "description": "Harden React Query mutation behaviors to reliably refresh the correct cached lists after create/update/delete/reorder (including refetching active queries after invalidation where needed), and standardize handling of authorization-related traps so editors can present consistent user-facing messaging. Verify the selected authorization component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Ensure read queries used by the Edit Content tabs are resilient to actor/identity transitions and refresh correctly after mutation invalidations (e.g., confirm query keys align with mutation invalidations and that query enabling does not block refresh after login). Verify the selected authorization component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/editors/GalleryEditor.tsx",
-          "operation": "modify",
-          "description": "Ensure gallery add/delete/reorder flows show clear error messages when unauthorized (e.g., user not logged in) and rely on React Query invalidation to reflect the latest list state immediately after success. Confirm blob uploads still use ExternalBlob direct URL rendering and upload progress correctly. Verify the selected blob-storage component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/editors/LoveMessagesEditor.tsx",
-          "operation": "modify",
-          "description": "Ensure message add/update/delete/reorder flows correctly trigger automatic list refresh after success and present clear authorization failure messaging when applicable (without requiring a manual page refresh)."
-        },
-        {
-          "path": "frontend/src/components/editors/TimelineEditor.tsx",
-          "operation": "modify",
-          "description": "Ensure timeline add/delete/reorder flows trigger automatic list refresh after success and that optional photo upload continues to work with ExternalBlob and upload progress; present clear authorization failure messaging when applicable. Verify the selected blob-storage component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/editors/DedicationEditor.tsx",
-          "operation": "modify",
-          "description": "Ensure dedication save reliably refreshes the displayed dedication state via React Query invalidation and presents clear authorization failure messaging when applicable."
-        },
-        {
-          "path": "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
-          "operation": "modify",
-          "description": "Ensure interactive surprise config save reliably refreshes the fetched config state via React Query invalidation and presents clear authorization failure messaging when applicable."
-        },
-        {
-          "path": "frontend/src/components/EditGuard.tsx",
-          "operation": "modify",
-          "description": "Confirm the Edit Content area remains gated by Internet Identity authentication and completed profile setup only (not admin status), and ensure any authorization-related backend traps are surfaced as a user-friendly 'login required' or 'not authorized' experience. Verify the selected authorization component's usage instructions before implementing."
+          "path": "frontend/src/components/GoLiveGuidance.tsx",
+          "operation": "create",
+          "description": "Create a dedicated Go Live guidance component that renders an in-app, English step-by-step checklist for the active content version, including displaying (and referencing) the version-specific share link using the existing buildShareUrl behavior (?v=<version>)."
         },
         {
           "path": "frontend/src/pages/EditContentPage.tsx",
           "operation": "modify",
-          "description": "Validate end-to-end wiring for all edit tabs (Gallery, Messages, Timeline, Dedication, Surprise) remains intact and that tab switching does not prevent the latest refreshed data from rendering after successful saves."
+          "description": "Wire the new GoLiveGuidance section into the /edit experience (near existing PublishingCallout/PublishControls) so the checklist is always visible within the editor for the currently selected version."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Make publish/share UI clearly reflect whether the active version is live and provide a persistent one-click copy of the correct version share link.",
+      "acceptanceCriteria": [
+        "When viewing /edit, the user can always find the share link for the active version (not only immediately after a successful publish).",
+        "The UI clearly indicates whether the active version is currently published (live) or not.",
+        "Copying the link copies a URL in the form `${origin}/?v=${activeVersion}` (using the existing `buildShareUrl`)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Update the publish-status query to be version-scoped by using activeVersion in the query key and by calling the backend capability with the active version argument, so the UI can accurately display live/not-live for the currently selected version."
         },
         {
-          "path": "frontend/src/utils/authzError.ts",
-          "operation": "create",
-          "description": "Add a small helper to detect and normalize common authorization failures (e.g., traps/messages indicating missing authentication) so editors and hooks can consistently map them to user-friendly UI feedback without duplicating logic. Verify the selected authorization component's usage instructions before implementing."
+          "path": "frontend/src/components/ContentVersionSwitcher.tsx",
+          "operation": "modify",
+          "description": "Ensure version switching also invalidates/refetches the version-scoped publishStatus query for both the previous and newly selected versions, keeping the “Live/Not published yet” indicator accurate after switching."
+        },
+        {
+          "path": "frontend/src/components/PublishControls.tsx",
+          "operation": "modify",
+          "description": "Revise the publishing UI to (1) show a prominent status indicator for the active version based on version-scoped publishStatus (e.g., “Live” vs “Not published yet”) and (2) provide a persistent share link area with a one-click Copy action that always copies the correct buildShareUrl(activeVersion), independent of any success toast/alert visibility."
+        },
+        {
+          "path": "frontend/src/utils/urlParams.ts",
+          "operation": "modify",
+          "description": "Ensure the existing share-link behavior is centralized in a buildShareUrl(activeVersion) utility that returns a URL in the form `${origin}/?v=${activeVersion}`, and that PublishControls/GoLiveGuidance use this function for copying/displaying the share link."
         }
       ]
     }

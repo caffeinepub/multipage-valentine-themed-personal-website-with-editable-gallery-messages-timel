@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
 import type { GalleryItem } from '../backend';
 
 interface GalleryCarouselProps {
@@ -8,6 +8,7 @@ interface GalleryCarouselProps {
 
 export default function GalleryCarousel({ items }: GalleryCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
@@ -17,20 +18,33 @@ export default function GalleryCarousel({ items }: GalleryCarouselProps) {
     setCurrentIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
   };
 
+  const handleImageError = (itemId: string) => {
+    setImageErrors((prev) => new Set(prev).add(itemId));
+  };
+
   if (items.length === 0) return null;
 
   const currentItem = items[currentIndex];
+  const hasImageError = imageErrors.has(currentItem.id);
 
   return (
     <div className="max-w-4xl mx-auto animate-fadeIn">
       <div className="relative bg-card rounded-2xl shadow-romantic overflow-hidden">
         {/* Image */}
         <div className="relative aspect-[4/3] bg-muted">
-          <img
-            src={currentItem.image.getDirectURL()}
-            alt={currentItem.caption}
-            className="w-full h-full object-contain"
-          />
+          {hasImageError ? (
+            <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground">
+              <ImageOff className="w-12 h-12 mb-2" />
+              <p className="text-sm">Image unavailable</p>
+            </div>
+          ) : (
+            <img
+              src={currentItem.image.getDirectURL()}
+              alt={currentItem.caption}
+              className="w-full h-full object-contain"
+              onError={() => handleImageError(currentItem.id)}
+            />
+          )}
           
           {/* Navigation Buttons */}
           {items.length > 1 && (
@@ -67,23 +81,33 @@ export default function GalleryCarousel({ items }: GalleryCarouselProps) {
       {/* Thumbnails */}
       {items.length > 1 && (
         <div className="flex gap-2 mt-6 overflow-x-auto pb-2">
-          {items.map((item, index) => (
-            <button
-              key={item.id}
-              onClick={() => setCurrentIndex(index)}
-              className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                index === currentIndex
-                  ? 'border-primary shadow-romantic scale-110'
-                  : 'border-transparent opacity-60 hover:opacity-100'
-              }`}
-            >
-              <img
-                src={item.image.getDirectURL()}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
+          {items.map((item, index) => {
+            const thumbHasError = imageErrors.has(item.id);
+            return (
+              <button
+                key={item.id}
+                onClick={() => setCurrentIndex(index)}
+                className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                  index === currentIndex
+                    ? 'border-primary shadow-romantic scale-110'
+                    : 'border-transparent opacity-60 hover:opacity-100'
+                }`}
+              >
+                {thumbHasError ? (
+                  <div className="w-full h-full flex items-center justify-center bg-muted">
+                    <ImageOff className="w-6 h-6 text-muted-foreground" />
+                  </div>
+                ) : (
+                  <img
+                    src={item.image.getDirectURL()}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    onError={() => handleImageError(item.id)}
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

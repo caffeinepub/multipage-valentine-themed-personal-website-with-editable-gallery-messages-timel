@@ -30,6 +30,11 @@ export interface LoveMessage {
   'preview' : string,
   'fullText' : string,
 }
+export interface PublishStatus {
+  'isPublished' : boolean,
+  'lastPublished' : [] | [Time],
+  'draftLastUpdated' : [] | [Time],
+}
 export interface QuizQuestion {
   'question' : string,
   'correctAnswer' : string,
@@ -77,50 +82,72 @@ export interface _SERVICE {
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'addGalleryItem' : ActorMethod<
-    [string, ExternalBlob, string, bigint],
+    [string, string, ExternalBlob, string, bigint],
     undefined
   >,
   'addLoveMessage' : ActorMethod<
-    [string, string, string, string, bigint],
+    [string, string, string, string, string, bigint],
     undefined
   >,
   'addTimelineMilestone' : ActorMethod<
-    [string, Time, string, string, [] | [ExternalBlob], bigint],
+    [string, string, Time, string, string, [] | [ExternalBlob], bigint],
     undefined
   >,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
-  'deleteGalleryItem' : ActorMethod<[string], undefined>,
-  'deleteLoveMessage' : ActorMethod<[string], undefined>,
-  'deleteTimelineMilestone' : ActorMethod<[string], undefined>,
-  'getAllGalleryItems' : ActorMethod<[], Array<GalleryItem>>,
-  'getAllLoveMessages' : ActorMethod<[], Array<LoveMessage>>,
-  'getAllTimelineMilestones' : ActorMethod<[], Array<TimelineMilestone>>,
+  'deleteGalleryItem' : ActorMethod<[string, string], undefined>,
+  'deleteLoveMessage' : ActorMethod<[string, string], undefined>,
+  'deleteTimelineMilestone' : ActorMethod<[string, string], undefined>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
-  'getFinalDedication' : ActorMethod<[], [] | [FinalDedication]>,
-  'getInteractiveSurpriseConfig' : ActorMethod<
-    [],
-    [] | [InteractiveSurpriseConfig]
+  'getDraftContent' : ActorMethod<
+    [string],
+    [] | [
+      {
+        'interactiveSurpriseConfig' : [] | [InteractiveSurpriseConfig],
+        'galleryItems' : Array<GalleryItem>,
+        'timelineMilestones' : Array<TimelineMilestone>,
+        'loveMessages' : Array<LoveMessage>,
+        'finalDedication' : [] | [FinalDedication],
+      }
+    ]
+  >,
+  'getPublishStatus' : ActorMethod<[string], PublishStatus>,
+  'getPublishedContent' : ActorMethod<
+    [string],
+    [] | [
+      {
+        'interactiveSurpriseConfig' : [] | [InteractiveSurpriseConfig],
+        'galleryItems' : Array<GalleryItem>,
+        'timelineMilestones' : Array<TimelineMilestone>,
+        'loveMessages' : Array<LoveMessage>,
+        'finalDedication' : [] | [FinalDedication],
+      }
+    ]
   >,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'getVersions' : ActorMethod<[], Array<string>>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
+  'publishDraft' : ActorMethod<[string], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
-  'setFinalDedication' : ActorMethod<[FinalDedication], undefined>,
+  'setFinalDedication' : ActorMethod<[string, FinalDedication], undefined>,
   'setInteractiveSurpriseConfig' : ActorMethod<
-    [InteractiveSurpriseConfig],
+    [string, InteractiveSurpriseConfig],
     undefined
   >,
-  'updateGalleryItemOrder' : ActorMethod<[string, bigint], undefined>,
+  'updateGalleryItemOrder' : ActorMethod<[string, string, bigint], undefined>,
   'updateLoveMessage' : ActorMethod<
-    [string, string, string, string],
+    [string, string, string, string, string],
     undefined
   >,
-  'updateLoveMessageOrder' : ActorMethod<[string, bigint], undefined>,
+  'updateLoveMessageOrder' : ActorMethod<[string, string, bigint], undefined>,
   'updateTimelineMilestone' : ActorMethod<
-    [string, Time, string, string, [] | [ExternalBlob]],
+    [string, string, Time, string, string, [] | [ExternalBlob]],
     undefined
   >,
-  'updateTimelineMilestoneOrder' : ActorMethod<[string, bigint], undefined>,
+  'updateTimelineMilestoneOrder' : ActorMethod<
+    [string, string, bigint],
+    undefined
+  >,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

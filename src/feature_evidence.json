@@ -2,17 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-ensure-the-existing-edit-content-ui-works-end-to-end-for-authenticated-users-after-the-permission-change-including-successful-saves-and-automatic-list-refresh-via-react-query-invalidation",
-      "featureTitle": "Ensure the existing Edit Content UI works end-to-end for authenticated users after the permission change, including successful saves and automatic list refresh via React Query invalidation.",
+      "featureId": "feature-add-a-clear-go-live-guidance-section-in-the-editor-experience-that-explains-in-app-the-exact-steps-to-make-the-current-content-version-publicly-visible-and-shareable-publish-the-draft-then-copy-share-the-version-specific-link",
+      "featureTitle": "Add a clear “Go Live” guidance section in the editor experience that explains, in-app, the exact steps to make the current content version publicly visible and shareable (publish the draft, then copy/share the version-specific link).",
       "files": [
-        "frontend/src/components/editors/DedicationEditor.tsx",
-        "frontend/src/components/editors/GalleryEditor.tsx",
-        "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
-        "frontend/src/components/editors/LoveMessagesEditor.tsx",
-        "frontend/src/components/editors/TimelineEditor.tsx",
-        "frontend/src/hooks/useEditMutations.ts",
-        "frontend/src/hooks/useQueries.ts",
-        "frontend/src/utils/authzError.ts"
+        "frontend/src/components/GoLiveGuidance.tsx",
+        "frontend/src/pages/EditContentPage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -24,7 +18,30 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-2"
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-improve-the-publishing-ui-to-reduce-confusion-about-whether-the-current-version-is-live-by-showing-a-prominent-status-indicator-for-the-active-version-e-g-not-published-yet-vs-live-and-providing-a-one-click-action-to-copy-the-correct-share-link-even-after-the-success-toast-alert-is-dismissed",
+      "featureTitle": "Improve the publishing UI to reduce confusion about whether the current version is live by showing a prominent status indicator for the active version (e.g., “Not published yet” vs “Live”) and providing a one-click action to copy the correct share link even after the success toast/alert is dismissed.",
+      "files": [
+        "frontend/src/components/ContentVersionSwitcher.tsx",
+        "frontend/src/components/PublishControls.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/utils/urlParams.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
       ],
       "confidence": "high"
     }

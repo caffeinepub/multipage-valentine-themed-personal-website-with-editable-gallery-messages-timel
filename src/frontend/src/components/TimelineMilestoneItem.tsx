@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heart, ChevronDown, ChevronUp } from 'lucide-react';
+import { Heart, ChevronDown, ChevronUp, ImageOff } from 'lucide-react';
 import type { TimelineMilestone } from '../backend';
 
 interface TimelineMilestoneItemProps {
@@ -9,6 +9,7 @@ interface TimelineMilestoneItemProps {
 
 export default function TimelineMilestoneItem({ milestone, isEven }: TimelineMilestoneItemProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   const date = new Date(Number(milestone.date) / 1000000);
   const formattedDate = date.toLocaleDateString('en-US', {
@@ -55,11 +56,19 @@ export default function TimelineMilestoneItem({ milestone, isEven }: TimelineMil
               
               {milestone.photo && (
                 <div className="rounded-xl overflow-hidden">
-                  <img
-                    src={milestone.photo.getDirectURL()}
-                    alt={milestone.title}
-                    className="w-full h-auto"
-                  />
+                  {imageError ? (
+                    <div className="w-full aspect-video flex flex-col items-center justify-center bg-muted text-muted-foreground">
+                      <ImageOff className="w-12 h-12 mb-2" />
+                      <p className="text-sm">Photo unavailable</p>
+                    </div>
+                  ) : (
+                    <img
+                      src={milestone.photo.getDirectURL()}
+                      alt={milestone.title}
+                      className="w-full h-auto"
+                      onError={() => setImageError(true)}
+                    />
+                  )}
                 </div>
               )}
             </div>

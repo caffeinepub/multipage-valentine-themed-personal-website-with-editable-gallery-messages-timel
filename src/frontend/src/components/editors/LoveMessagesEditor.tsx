@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGetAllLoveMessages } from '../../hooks/useQueries';
+import { useGetDraftLoveMessages } from '../../hooks/useQueries';
 import { useAddLoveMessage, useUpdateLoveMessage, useDeleteLoveMessage, useUpdateLoveMessageOrder } from '../../hooks/useEditMutations';
 import DragReorderList from '../DragReorderList';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { getUserFriendlyErrorMessage } from '../../utils/authzError';
 
 export default function LoveMessagesEditor() {
-  const { data: messages } = useGetAllLoveMessages();
+  const { data: messages } = useGetDraftLoveMessages();
   const addMessage = useAddLoveMessage();
   const updateMessage = useUpdateLoveMessage();
   const deleteMessage = useDeleteLoveMessage();
@@ -62,30 +62,33 @@ export default function LoveMessagesEditor() {
     setEditFullText(message.fullText);
   };
 
-  const handleSaveEdit = async () => {
-    if (!editingId || !editTitle.trim() || !editPreview.trim() || !editFullText.trim()) {
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditTitle('');
+    setEditPreview('');
+    setEditFullText('');
+  };
+
+  const handleSaveEdit = async (id: string) => {
+    if (!editTitle.trim() || !editPreview.trim() || !editFullText.trim()) {
       toast.error('Please fill in all fields');
       return;
     }
 
     try {
       await updateMessage.mutateAsync({
-        id: editingId,
+        id,
         title: editTitle.trim(),
         preview: editPreview.trim(),
         fullText: editFullText.trim()
       });
 
       setEditingId(null);
-      toast.success('Message updated!');
+      toast.success('Message updated successfully!');
     } catch (error) {
       console.error('Error updating message:', error);
       toast.error(getUserFriendlyErrorMessage(error));
     }
-  };
-
-  const handleCancelEdit = () => {
-    setEditingId(null);
   };
 
   const handleDelete = async (id: string) => {
@@ -100,11 +103,11 @@ export default function LoveMessagesEditor() {
     }
   };
 
-  const handleReorder = async (reorderedMessages: LoveMessage[]) => {
+  const handleReorder = async (reorderedItems: LoveMessage[]) => {
     try {
-      for (let i = 0; i < reorderedMessages.length; i++) {
-        if (Number(reorderedMessages[i].order) !== i) {
-          await updateOrder.mutateAsync({ id: reorderedMessages[i].id, newOrder: BigInt(i) });
+      for (let i = 0; i < reorderedItems.length; i++) {
+        if (Number(reorderedItems[i].order) !== i) {
+          await updateOrder.mutateAsync({ id: reorderedItems[i].id, newOrder: BigInt(i) });
         }
       }
       toast.success('Messages reordered successfully!');
@@ -151,7 +154,7 @@ export default function LoveMessagesEditor() {
               onChange={(e) => setNewFullText(e.target.value)}
               placeholder="Full message text..."
               className="mt-2"
-              rows={6}
+              rows={5}
             />
           </div>
 
@@ -168,7 +171,7 @@ export default function LoveMessagesEditor() {
 
       {/* Existing Messages */}
       <div>
-        <h3 className="text-xl font-semibold text-foreground mb-4">Messages ({sortedMessages.length})</h3>
+        <h3 className="text-xl font-semibold text-foreground mb-4">Love Messages ({sortedMessages.length})</h3>
         {sortedMessages.length === 0 ? (
           <p className="text-muted-foreground text-center py-8">No messages yet. Add your first message above!</p>
         ) : (
@@ -177,7 +180,7 @@ export default function LoveMessagesEditor() {
             onReorder={handleReorder}
             getItemId={(item) => item.id}
             renderItem={(message) => (
-              <div className="flex-1">
+              <div className="space-y-3">
                 {editingId === message.id ? (
                   <div className="space-y-3">
                     <Input
@@ -199,17 +202,16 @@ export default function LoveMessagesEditor() {
                     />
                     <div className="flex gap-2">
                       <button
-                        onClick={handleSaveEdit}
+                        onClick={() => handleSaveEdit(message.id)}
                         disabled={updateMessage.isPending}
-                        className="flex-1 bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="flex-1 bg-primary text-white py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
                       >
                         <Save className="w-4 h-4" />
-                        {updateMessage.isPending ? 'Saving...' : 'Save'}
+                        Save
                       </button>
                       <button
                         onClick={handleCancelEdit}
-                        disabled={updateMessage.isPending}
-                        className="flex-1 bg-muted text-foreground py-2 rounded-lg hover:bg-muted/80 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="flex-1 bg-muted text-foreground py-2 rounded-lg hover:bg-muted/80 transition-colors flex items-center justify-center gap-2"
                       >
                         <X className="w-4 h-4" />
                         Cancel
@@ -217,28 +219,30 @@ export default function LoveMessagesEditor() {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <h4 className="text-foreground font-semibold mb-1">{message.title}</h4>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{message.preview}</p>
+                  <>
+                    <div>
+                      <p className="text-foreground font-semibold text-lg">{message.title}</p>
+                      <p className="text-muted-foreground text-sm mt-1">{message.preview}</p>
+                      <p className="text-muted-foreground text-xs mt-2">Order: {Number(message.order)}</p>
                     </div>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleStartEdit(message)}
-                        disabled={deleteMessage.isPending}
-                        className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors disabled:opacity-50"
+                        className="flex-1 bg-accent text-foreground py-2 rounded-lg hover:bg-accent/80 transition-colors flex items-center justify-center gap-2"
                       >
                         <Edit className="w-4 h-4" />
+                        Edit
                       </button>
                       <button
                         onClick={() => handleDelete(message.id)}
                         disabled={deleteMessage.isPending}
-                        className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors disabled:opacity-50"
+                        className="flex-1 bg-destructive/10 text-destructive py-2 rounded-lg hover:bg-destructive/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                       >
                         <Trash2 className="w-4 h-4" />
+                        Delete
                       </button>
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             )}

@@ -52,6 +52,10 @@ export function getUserFriendlyErrorMessage(error: unknown): string {
   if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
     return 'Network error. Please check your connection and try again.';
   }
+
+  if (errorMessage.includes('No draft content found')) {
+    return 'No draft content found. Please create some content first.';
+  }
   
   return 'An unexpected error occurred. Please try again.';
 }

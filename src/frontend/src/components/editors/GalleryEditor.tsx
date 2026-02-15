@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGetAllGalleryItems } from '../../hooks/useQueries';
+import { useGetDraftGalleryItems } from '../../hooks/useQueries';
 import { useAddGalleryItem, useDeleteGalleryItem, useUpdateGalleryItemOrder } from '../../hooks/useEditMutations';
 import DragReorderList from '../DragReorderList';
 import { Input } from '@/components/ui/input';
@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import { getUserFriendlyErrorMessage } from '../../utils/authzError';
 
 export default function GalleryEditor() {
-  const { data: galleryItems } = useGetAllGalleryItems();
+  const { data: galleryItems } = useGetDraftGalleryItems();
   const addItem = useAddGalleryItem();
   const deleteItem = useDeleteGalleryItem();
   const updateOrder = useUpdateGalleryItemOrder();

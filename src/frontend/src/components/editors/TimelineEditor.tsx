@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { useGetAllTimelineMilestones } from '../../hooks/useQueries';
+import { useGetDraftTimelineMilestones } from '../../hooks/useQueries';
 import { useAddTimelineMilestone, useDeleteTimelineMilestone, useUpdateTimelineMilestoneOrder } from '../../hooks/useEditMutations';
 import DragReorderList from '../DragReorderList';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Trash2, Upload } from 'lucide-react';
+import { Plus, Trash2, Upload, X } from 'lucide-react';
 import { ExternalBlob } from '../../backend';
 import type { TimelineMilestone } from '../../backend';
 import { toast } from 'sonner';
 import { getUserFriendlyErrorMessage } from '../../utils/authzError';
 
 export default function TimelineEditor() {
-  const { data: milestones } = useGetAllTimelineMilestones();
+  const { data: milestones } = useGetDraftTimelineMilestones();
   const addMilestone = useAddTimelineMilestone();
   const deleteMilestone = useDeleteTimelineMilestone();
   const updateOrder = useUpdateTimelineMilestoneOrder();
@@ -23,7 +23,7 @@ export default function TimelineEditor() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const sortedMilestones = milestones ? [...milestones].sort((a, b) => Number(a.date) - Number(b.date)) : [];
+  const sortedMilestones = milestones ? [...milestones].sort((a, b) => Number(a.order) - Number(b.order)) : [];
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -38,26 +38,24 @@ export default function TimelineEditor() {
     }
 
     try {
-      const dateMs = new Date(newDate).getTime();
-      const dateNs = BigInt(dateMs) * BigInt(1000000);
-
-      let photo: ExternalBlob | null = null;
+      let photoBlob: ExternalBlob | null = null;
       if (selectedFile) {
         const bytes = new Uint8Array(await selectedFile.arrayBuffer());
-        photo = ExternalBlob.fromBytes(bytes).withUploadProgress((percentage) => {
+        photoBlob = ExternalBlob.fromBytes(bytes).withUploadProgress((percentage) => {
           setUploadProgress(percentage);
         });
       }
 
       const id = `milestone-${Date.now()}`;
+      const dateTimestamp = BigInt(new Date(newDate).getTime() * 1000000); // Convert to nanoseconds
       const order = BigInt(sortedMilestones.length);
 
       await addMilestone.mutateAsync({
         id,
-        date: dateNs,
+        date: dateTimestamp,
         title: newTitle.trim(),
         description: newDescription.trim(),
-        photo,
+        photo: photoBlob,
         order
       });
 
@@ -85,11 +83,11 @@ export default function TimelineEditor() {
     }
   };
 
-  const handleReorder = async (reorderedMilestones: TimelineMilestone[]) => {
+  const handleReorder = async (reorderedItems: TimelineMilestone[]) => {
     try {
-      for (let i = 0; i < reorderedMilestones.length; i++) {
-        if (Number(reorderedMilestones[i].order) !== i) {
-          await updateOrder.mutateAsync({ id: reorderedMilestones[i].id, newOrder: BigInt(i) });
+      for (let i = 0; i < reorderedItems.length; i++) {
+        if (Number(reorderedItems[i].order) !== i) {
+          await updateOrder.mutateAsync({ id: reorderedItems[i].id, newOrder: BigInt(i) });
         }
       }
       toast.success('Timeline reordered successfully!');
@@ -97,6 +95,11 @@ export default function TimelineEditor() {
       console.error('Error reordering milestones:', error);
       toast.error(getUserFriendlyErrorMessage(error));
     }
+  };
+
+  const formatDate = (timestamp: bigint) => {
+    const date = new Date(Number(timestamp) / 1000000);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   };
 
   return (
@@ -135,16 +138,16 @@ export default function TimelineEditor() {
               onChange={(e) => setNewDescription(e.target.value)}
               placeholder="Describe this milestone..."
               className="mt-2"
-              rows={4}
+              rows={3}
             />
           </div>
 
           <div>
             <Label htmlFor="photo">Photo (Optional)</Label>
-            <div className="mt-2">
-              <label className="flex items-center gap-2 px-4 py-3 bg-accent/50 hover:bg-accent rounded-lg cursor-pointer transition-colors">
+            <div className="mt-2 flex items-center gap-2">
+              <label className="flex items-center gap-2 px-4 py-3 bg-accent/50 hover:bg-accent rounded-lg cursor-pointer transition-colors flex-1">
                 <Upload className="w-5 h-5" />
-                <span>{selectedFile ? selectedFile.name : 'Choose photo...'}</span>
+                <span className="truncate">{selectedFile ? selectedFile.name : 'Choose photo...'}</span>
                 <input
                   id="photo"
                   type="file"
@@ -153,6 +156,14 @@ export default function TimelineEditor() {
                   className="hidden"
                 />
               </label>
+              {selectedFile && (
+                <button
+                  onClick={() => setSelectedFile(null)}
+                  className="p-3 bg-destructive/10 text-destructive hover:bg-destructive/20 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
             </div>
           </div>
 
@@ -196,11 +207,10 @@ export default function TimelineEditor() {
                   />
                 )}
                 <div className="flex-1">
-                  <h4 className="text-foreground font-semibold mb-1">{milestone.title}</h4>
-                  <p className="text-sm text-muted-foreground mb-1">
-                    {new Date(Number(milestone.date) / 1000000).toLocaleDateString()}
-                  </p>
-                  <p className="text-sm text-muted-foreground line-clamp-2">{milestone.description}</p>
+                  <p className="text-sm text-primary font-medium">{formatDate(milestone.date)}</p>
+                  <p className="text-foreground font-semibold text-lg mt-1">{milestone.title}</p>
+                  <p className="text-muted-foreground text-sm mt-1">{milestone.description}</p>
+                  <p className="text-muted-foreground text-xs mt-2">Order: {Number(milestone.order)}</p>
                 </div>
                 <button
                   onClick={() => handleDelete(milestone.id)}
