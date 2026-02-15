@@ -1,119 +1,16 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
-  "summary": "Multipage Valentine-themed personal website (romantic gift) with soft pastel aesthetic, smooth animations, responsive design, and editable content (photos, messages, timeline).",
-  "architectural_notes": [
-    "Draft vs Live publishing is currently driven by a chat-level Publish action; consider adding explicit state indicators and confirmations to reduce user error.",
-    "Consider adding an explicit post-build 'ready to publish' state with a guaranteed visible Publish CTA (and a retry/resurface control) to mitigate cases where the chat-level Publish button fails to render."
-  ],
-  "known_issues": [
-    "Users report that pressing an in-editor 'Publish changes' button does not update the live link; high confusion between editor save/draft vs chat publish.",
-    "Publish button in chat may not appear consistently (depends on build/draft state), blocking users from publishing and leading to perceived data loss.",
-    "Even after user confirms the draft looks correct, the chat-level Publish button may fail to appear; users request a rebuild/retry that does not change content but surfaces the Publish CTA clearly."
-  ],
-  "isFixRequest": true,
+  "projectStateVersion": 3,
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-create-a-fully-responsive-multipage-valentine-themed-personal-website-with-the-following-pages-home-our-memories-photo-gallery-love-messages-timeline-interactive-surprise-and-final-dedication",
-      "title": "Create a fully responsive multipage Valentine-themed personal website with the following pages: Home, “Our Memories” (Photo Gallery), Love Messages, Timeline, Interactive Surprise, and Final Dedication.",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-apply-a-cohesive-romantic-visual-theme-across-all-pages-soft-pastel-palette-pink-beige-lavender-cream-rose-gold-cute-but-classy-styling-elegant-romantic-typography-and-smooth-animations-transitions-that-feel-subtle-and-emotional",
-      "title": "Apply a cohesive romantic visual theme across all pages: soft pastel palette (pink, beige, lavender, cream, rose gold), cute-but-classy styling, elegant romantic typography, and smooth animations/transitions that feel subtle and emotional.",
+      "id": "feature-ensure-the-existing-edit-content-ui-works-end-to-end-for-authenticated-users-after-the-permission-change-including-successful-saves-and-automatic-list-refresh-via-react-query-invalidation",
+      "title": "Ensure the existing Edit Content UI works end-to-end for authenticated users after the permission change, including successful saves and automatic list refresh via React Query invalidation.",
       "reqIds": [
         "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-the-home-page-with-1-a-romantic-welcome-headline-e-g-for-my-special-one-2-a-hero-section-with-an-image-background-and-3-subtle-heart-love-animations-e-g-floating-hearts-shimmer-or-gentle-particle-hearts",
-      "title": "Implement the Home page with: (1) a romantic welcome headline (e.g., “For My Special One”), (2) a hero section with an image background, and (3) subtle heart/love animations (e.g., floating hearts, shimmer, or gentle particle hearts).",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-build-the-our-memories-photo-gallery-page-featuring-a-slideshow-carousel-with-smooth-animated-transitions-supporting-multiple-photos-and-showing-a-caption-under-each-photo",
-      "title": "Build the “Our Memories” Photo Gallery page featuring a slideshow/carousel with smooth animated transitions, supporting multiple photos and showing a caption under each photo.",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-create-the-love-messages-page-with-multiple-message-cards-envelopes-each-message-is-click-to-open-closed-preview-state-opened-full-note-and-supports-long-personal-messages-with-comfortable-reading-layout",
-      "title": "Create the Love Messages page with multiple message cards/envelopes; each message is click-to-open (closed preview state → opened full note), and supports long personal messages with comfortable reading layout.",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-create-the-timeline-page-showing-a-journey-timeline-of-milestones-important-dates-with-each-milestone-supporting-a-date-title-description-and-optional-photo-include-interactive-affordances-expand-collapse-or-step-by-step-browsing-while-keeping-the-page-romantic-and-elegant",
-      "title": "Create the Timeline page showing a journey timeline of milestones (important dates), with each milestone supporting a date, title, description, and optional photo; include interactive affordances (expand/collapse or step-by-step browsing) while keeping the page romantic and elegant.",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-the-interactive-surprise-page-with-1-a-surprise-button-that-triggers-a-romantic-reveal-message-animation-2-a-small-love-quiz-multiple-questions-with-results-3-flip-cards-and-4-heart-animations-on-clicks-taps-within-the-page",
-      "title": "Implement the Interactive Surprise page with: (1) a “surprise” button that triggers a romantic reveal (message/animation), (2) a small love quiz (multiple questions with results), (3) flip cards, and (4) heart animations on clicks/taps within the page.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-the-final-dedication-page-with-a-closing-love-note-and-a-personal-signature-section-name-sign-off-styled-consistently-with-the-overall-theme",
-      "title": "Implement the Final Dedication page with a closing love note and a personal signature section (name/sign-off), styled consistently with the overall theme.",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-provide-an-easy-in-app-editing-experience-to-update-photos-captions-memories-timeline-milestones-and-love-letters-messages-including-drag-and-drop-interactions-where-appropriate-e-g-reordering-gallery-items-and-message-cards",
-      "title": "Provide an easy in-app editing experience to update photos, captions, memories, timeline milestones, and love letters/messages, including drag-and-drop interactions where appropriate (e.g., reordering gallery items and message cards).",
-      "reqIds": [
-        "REQ-9"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-ensure-that-opening-the-editor-draft-view-is-strictly-non-destructive-loading-the-draft-must-only-fetch-and-display-existing-saved-gallery-photos-and-love-messages-letters-and-must-not-create-overwrite-reorder-or-delete-any-content-unless-the-user-explicitly-performs-an-add-edit-delete-reorder-action",
-      "title": "Ensure that opening the editor/draft view is strictly non-destructive: loading the draft must only fetch and display existing saved gallery photos and love messages (letters) and must not create, overwrite, reorder, or delete any content unless the user explicitly performs an add/edit/delete/reorder action.",
-      "reqIds": [
-        "REQ-11"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-clear-read-only-draft-review-summary-at-the-top-of-the-edit-content-experience-that-confirms-what-is-currently-saved-e-g-counts-of-gallery-items-and-messages-and-a-visible-last-loaded-timestamp-so-the-user-can-immediately-verify-their-photos-and-letters-are-still-in-the-draft-without-editing-anything",
-      "title": "Add a clear read-only “Draft Review” summary at the top of the Edit Content experience that confirms what is currently saved (e.g., counts of Gallery Items and Messages, and a visible ‘Last loaded’ timestamp), so the user can immediately verify their photos and letters are still in the draft without editing anything.",
-      "reqIds": [
-        "REQ-12"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-prominent-always-visible-publishing-callout-section-near-the-top-of-the-edit-content-page-that-clearly-explains-the-difference-between-saving-edits-draft-and-publishing-the-live-site-chat-level-publish-using-clear-english-text",
-      "title": "Add a prominent, always-visible \"Publishing\" callout section near the top of the Edit Content page that clearly explains the difference between saving edits (draft) and publishing the live site (chat-level publish), using clear English text.",
-      "reqIds": [
-        "REQ-14"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-in-the-publishing-callout-include-a-clear-user-action-that-helps-users-reliably-trigger-the-correct-publish-flow-when-the-chat-level-publish-button-fails-to-appear-without-changing-any-site-content",
-      "title": "In the Publishing callout, include a clear user action that helps users reliably trigger the correct publish flow when the chat-level Publish button fails to appear, without changing any site content.",
-      "reqIds": [
-        "REQ-15"
       ],
       "version": 1
     }
@@ -121,88 +18,20 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Build multipage Valentine-themed personal website with romantic, elegant aesthetic (pastel palette, romantic fonts, smooth animations, fully responsive).",
+      "summary": "Make the draft/build editable (enable editing capability for the deployed draft version)",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Home page: romantic welcome message, hero section with image background, subtle heart/love animations.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Photo Gallery (“Our Memories”): slideshow/carousel, upload multiple photos, captions per photo, smooth transitions.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Love Messages page: multiple message cards/envelopes, click-to-open notes, support long personal messages.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-5",
-      "summary": "Timeline page: journey timeline with important dates, photos and descriptions per milestone.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Interactive Surprise page: surprise button, love quiz, flip cards, heart animations on clicks.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-7",
-      "summary": "Final Dedication page: closing love note and personal signature section.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-8",
-      "summary": "Easy editing: provide drag-and-drop style editing or simple admin/editor flow to update photos, memories, and letters/messages.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-18",
-      "summary": "Implement backend persistence APIs in the single Motoko main actor to store and retrieve all editable content: gallery items (image + caption + ordering), love messages (title/preview + full text + ordering), timeline milestones (date/title/description/photo + ordering), Home/Final Dedication text fields, and Interactive Surprise page configuration (quiz questions/results and flip card content).",
+      "summary": "Make the deployed draft content editable for any authenticated Internet Identity user by removing the current admin-only restriction on content modification methods (gallery, love messages, timeline milestones, interactive surprise config, and final dedication). Editing access should require a logged-in identity, but must not require the caller to be an admin.",
       "reqIds": [
-        "REQ-10"
+        "REQ-1"
       ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-19",
-      "summary": "Improve publishing workflow/UX: clearly distinguish Draft vs Live, make the correct Publish action discoverable (and/or add an in-editor publish option), and show publish status/last published timestamp to prevent confusion about which button goes live.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-20",
-      "summary": "Add safeguards to prevent loss/confusion of edits: ensure photos/letters added in draft persist reliably across sessions/builds, and provide clear confirmation of what content will be published to the live link.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-23",
-      "summary": "Improve reliability of saved draft content across canister upgrades by persisting all editable content (gallery items, love messages, timeline milestones, interactive surprise config, final dedication, and user profiles) in stable storage and restoring it on upgrade, so saved photos and letters are not lost after redeploy/upgrade events.",
-      "reqIds": [
-        "REQ-13"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-24",
-      "summary": "Ensure the real chat-level Publish button reliably appears after a successful build/confirmation, and provide a clear retry/resurface mechanism when it fails to display.",
-      "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "Multipage Valentine-themed personal website with editable gallery, messages, timeline, and surprises",
+  "projectName": "Enable editing for the deployed draft (remove admin-only restriction)",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

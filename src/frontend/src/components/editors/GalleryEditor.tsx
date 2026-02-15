@@ -9,6 +9,7 @@ import { Plus, Trash2, Upload } from 'lucide-react';
 import { ExternalBlob } from '../../backend';
 import type { GalleryItem } from '../../backend';
 import { toast } from 'sonner';
+import { getUserFriendlyErrorMessage } from '../../utils/authzError';
 
 export default function GalleryEditor() {
   const { data: galleryItems } = useGetAllGalleryItems();
@@ -51,7 +52,7 @@ export default function GalleryEditor() {
       toast.success('Photo added successfully!');
     } catch (error) {
       console.error('Error adding gallery item:', error);
-      toast.error('Failed to add photo');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 
@@ -62,7 +63,7 @@ export default function GalleryEditor() {
         toast.success('Photo deleted');
       } catch (error) {
         console.error('Error deleting gallery item:', error);
-        toast.error('Failed to delete photo');
+        toast.error(getUserFriendlyErrorMessage(error));
       }
     }
   };
@@ -74,9 +75,10 @@ export default function GalleryEditor() {
           await updateOrder.mutateAsync({ id: reorderedItems[i].id, newOrder: BigInt(i) });
         }
       }
+      toast.success('Gallery reordered successfully!');
     } catch (error) {
       console.error('Error reordering items:', error);
-      toast.error('Failed to reorder items');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 
@@ -158,7 +160,8 @@ export default function GalleryEditor() {
                 </div>
                 <button
                   onClick={() => handleDelete(item.id)}
-                  className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+                  disabled={deleteItem.isPending}
+                  className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors disabled:opacity-50"
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>

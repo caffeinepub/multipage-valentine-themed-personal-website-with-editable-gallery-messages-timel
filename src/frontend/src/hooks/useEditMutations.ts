@@ -13,8 +13,9 @@ export function useAddGalleryItem() {
       if (!actor) throw new Error('Actor not available');
       return actor.addGalleryItem(id, image, caption, order);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['galleryItems'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['galleryItems'] });
+      await queryClient.refetchQueries({ queryKey: ['galleryItems'], type: 'active' });
     }
   });
 }
@@ -28,8 +29,9 @@ export function useDeleteGalleryItem() {
       if (!actor) throw new Error('Actor not available');
       return actor.deleteGalleryItem(id);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['galleryItems'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['galleryItems'] });
+      await queryClient.refetchQueries({ queryKey: ['galleryItems'], type: 'active' });
     }
   });
 }
@@ -43,8 +45,9 @@ export function useUpdateGalleryItemOrder() {
       if (!actor) throw new Error('Actor not available');
       return actor.updateGalleryItemOrder(id, newOrder);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['galleryItems'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['galleryItems'] });
+      await queryClient.refetchQueries({ queryKey: ['galleryItems'], type: 'active' });
     }
   });
 }
@@ -59,8 +62,9 @@ export function useAddLoveMessage() {
       if (!actor) throw new Error('Actor not available');
       return actor.addLoveMessage(id, title, preview, fullText, order);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['loveMessages'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['loveMessages'] });
+      await queryClient.refetchQueries({ queryKey: ['loveMessages'], type: 'active' });
     }
   });
 }
@@ -74,8 +78,9 @@ export function useUpdateLoveMessage() {
       if (!actor) throw new Error('Actor not available');
       return actor.updateLoveMessage(id, title, preview, fullText);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['loveMessages'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['loveMessages'] });
+      await queryClient.refetchQueries({ queryKey: ['loveMessages'], type: 'active' });
     }
   });
 }
@@ -89,8 +94,9 @@ export function useDeleteLoveMessage() {
       if (!actor) throw new Error('Actor not available');
       return actor.deleteLoveMessage(id);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['loveMessages'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['loveMessages'] });
+      await queryClient.refetchQueries({ queryKey: ['loveMessages'], type: 'active' });
     }
   });
 }
@@ -104,8 +110,9 @@ export function useUpdateLoveMessageOrder() {
       if (!actor) throw new Error('Actor not available');
       return actor.updateLoveMessageOrder(id, newOrder);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['loveMessages'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['loveMessages'] });
+      await queryClient.refetchQueries({ queryKey: ['loveMessages'], type: 'active' });
     }
   });
 }
@@ -120,8 +127,9 @@ export function useAddTimelineMilestone() {
       if (!actor) throw new Error('Actor not available');
       return actor.addTimelineMilestone(id, date, title, description, photo, order);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['timelineMilestones'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['timelineMilestones'] });
+      await queryClient.refetchQueries({ queryKey: ['timelineMilestones'], type: 'active' });
     }
   });
 }
@@ -135,8 +143,9 @@ export function useUpdateTimelineMilestone() {
       if (!actor) throw new Error('Actor not available');
       return actor.updateTimelineMilestone(id, date, title, description, photo);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['timelineMilestones'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['timelineMilestones'] });
+      await queryClient.refetchQueries({ queryKey: ['timelineMilestones'], type: 'active' });
     }
   });
 }
@@ -150,8 +159,9 @@ export function useDeleteTimelineMilestone() {
       if (!actor) throw new Error('Actor not available');
       return actor.deleteTimelineMilestone(id);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['timelineMilestones'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['timelineMilestones'] });
+      await queryClient.refetchQueries({ queryKey: ['timelineMilestones'], type: 'active' });
     }
   });
 }
@@ -165,8 +175,9 @@ export function useUpdateTimelineMilestoneOrder() {
       if (!actor) throw new Error('Actor not available');
       return actor.updateTimelineMilestoneOrder(id, newOrder);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['timelineMilestones'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['timelineMilestones'] });
+      await queryClient.refetchQueries({ queryKey: ['timelineMilestones'], type: 'active' });
     }
   });
 }
@@ -181,8 +192,9 @@ export function useSetInteractiveSurpriseConfig() {
       if (!actor) throw new Error('Actor not available');
       return actor.setInteractiveSurpriseConfig(config);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['interactiveSurpriseConfig'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['interactiveSurpriseConfig'] });
+      await queryClient.refetchQueries({ queryKey: ['interactiveSurpriseConfig'], type: 'active' });
     }
   });
 }
@@ -197,8 +209,9 @@ export function useSetFinalDedication() {
       if (!actor) throw new Error('Actor not available');
       return actor.setFinalDedication(dedication);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['finalDedication'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['finalDedication'] });
+      await queryClient.refetchQueries({ queryKey: ['finalDedication'], type: 'active' });
     }
   });
 }

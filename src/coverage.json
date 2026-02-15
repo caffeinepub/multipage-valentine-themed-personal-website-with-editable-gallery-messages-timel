@@ -1,48 +1,65 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-14T09:36:31.997Z",
+  "generatedAt": "2026-02-14T19:08:23.827Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
     "total": 2,
-    "implemented": 2,
+    "implemented": 1,
     "items": [
       {
-        "id": "REQ-14",
-        "summary": "Add a prominent, always-visible \"Publishing\" callout section near the top of the Edit Content page that clearly explains the difference between saving edits (draft) and publishing the live site (chat-level publish), using clear English text.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/PublishingCallout.tsx",
-          "frontend/src/pages/EditContentPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/PublishingCallout.tsx",
-          "frontend/src/pages/EditContentPage.tsx"
-        ]
+        "id": "REQ-1",
+        "summary": "Make the deployed draft content editable for any authenticated Internet Identity user by removing the current admin-only restriction on content modification methods (gallery, love messages, timeline milestones, interactive surprise config, and final dedication). Editing access should require a logged-in identity, but must not require the caller to be an admin.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
       },
       {
-        "id": "REQ-15",
-        "summary": "In the Publishing callout, include a clear user action that helps users reliably trigger the correct publish flow when the chat-level Publish button fails to appear, without changing any site content.",
+        "id": "REQ-2",
+        "summary": "Ensure the existing Edit Content UI works end-to-end for authenticated users after the permission change, including successful saves and automatic list refresh via React Query invalidation.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/PublishingCallout.tsx"
+          "frontend/src/hooks/useEditMutations.ts",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/editors/GalleryEditor.tsx",
+          "frontend/src/components/editors/LoveMessagesEditor.tsx",
+          "frontend/src/components/editors/TimelineEditor.tsx",
+          "frontend/src/components/editors/DedicationEditor.tsx",
+          "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
+          "frontend/src/components/EditGuard.tsx",
+          "frontend/src/pages/EditContentPage.tsx",
+          "frontend/src/utils/authzError.ts"
         ],
         "matchedFiles": [
-          "frontend/src/components/PublishingCallout.tsx"
+          "frontend/src/hooks/useEditMutations.ts",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/editors/GalleryEditor.tsx",
+          "frontend/src/components/editors/LoveMessagesEditor.tsx",
+          "frontend/src/components/editors/TimelineEditor.tsx",
+          "frontend/src/components/editors/DedicationEditor.tsx",
+          "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
+          "frontend/src/utils/authzError.ts"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/PublishingCallout.tsx",
-    "frontend/src/pages/EditContentPage.tsx",
+    "frontend/src/components/editors/DedicationEditor.tsx",
+    "frontend/src/components/editors/GalleryEditor.tsx",
+    "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
+    "frontend/src/components/editors/LoveMessagesEditor.tsx",
+    "frontend/src/components/editors/TimelineEditor.tsx",
+    "frontend/src/hooks/useEditMutations.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/utils/authzError.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useGetAllTimelineMilestones } from '../../hooks/useQueries';
-import { useAddTimelineMilestone, useUpdateTimelineMilestone, useDeleteTimelineMilestone, useUpdateTimelineMilestoneOrder } from '../../hooks/useEditMutations';
+import { useAddTimelineMilestone, useDeleteTimelineMilestone, useUpdateTimelineMilestoneOrder } from '../../hooks/useEditMutations';
 import DragReorderList from '../DragReorderList';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,6 +9,7 @@ import { Plus, Trash2, Upload } from 'lucide-react';
 import { ExternalBlob } from '../../backend';
 import type { TimelineMilestone } from '../../backend';
 import { toast } from 'sonner';
+import { getUserFriendlyErrorMessage } from '../../utils/authzError';
 
 export default function TimelineEditor() {
   const { data: milestones } = useGetAllTimelineMilestones();
@@ -68,7 +69,7 @@ export default function TimelineEditor() {
       toast.success('Milestone added successfully!');
     } catch (error) {
       console.error('Error adding milestone:', error);
-      toast.error('Failed to add milestone');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 
@@ -79,7 +80,7 @@ export default function TimelineEditor() {
         toast.success('Milestone deleted');
       } catch (error) {
         console.error('Error deleting milestone:', error);
-        toast.error('Failed to delete milestone');
+        toast.error(getUserFriendlyErrorMessage(error));
       }
     }
   };
@@ -91,9 +92,10 @@ export default function TimelineEditor() {
           await updateOrder.mutateAsync({ id: reorderedMilestones[i].id, newOrder: BigInt(i) });
         }
       }
+      toast.success('Timeline reordered successfully!');
     } catch (error) {
       console.error('Error reordering milestones:', error);
-      toast.error('Failed to reorder milestones');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 
@@ -176,7 +178,7 @@ export default function TimelineEditor() {
 
       {/* Existing Milestones */}
       <div>
-        <h3 className="text-xl font-semibold text-foreground mb-4">Milestones ({sortedMilestones.length})</h3>
+        <h3 className="text-xl font-semibold text-foreground mb-4">Timeline Milestones ({sortedMilestones.length})</h3>
         {sortedMilestones.length === 0 ? (
           <p className="text-muted-foreground text-center py-8">No milestones yet. Add your first milestone above!</p>
         ) : (
@@ -184,37 +186,31 @@ export default function TimelineEditor() {
             items={sortedMilestones}
             onReorder={handleReorder}
             getItemId={(item) => item.id}
-            renderItem={(milestone) => {
-              const date = new Date(Number(milestone.date) / 1000000);
-              const formattedDate = date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              });
-
-              return (
-                <div className="flex items-start gap-4">
-                  {milestone.photo && (
-                    <img
-                      src={milestone.photo.getDirectURL()}
-                      alt={milestone.title}
-                      className="w-24 h-24 object-cover rounded-lg"
-                    />
-                  )}
-                  <div className="flex-1">
-                    <p className="text-sm text-primary font-medium mb-1">{formattedDate}</p>
-                    <h4 className="text-foreground font-semibold mb-1">{milestone.title}</h4>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{milestone.description}</p>
-                  </div>
-                  <button
-                    onClick={() => handleDelete(milestone.id)}
-                    className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
+            renderItem={(milestone) => (
+              <div className="flex items-start gap-4">
+                {milestone.photo && (
+                  <img
+                    src={milestone.photo.getDirectURL()}
+                    alt={milestone.title}
+                    className="w-24 h-24 object-cover rounded-lg"
+                  />
+                )}
+                <div className="flex-1">
+                  <h4 className="text-foreground font-semibold mb-1">{milestone.title}</h4>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    {new Date(Number(milestone.date) / 1000000).toLocaleDateString()}
+                  </p>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{milestone.description}</p>
                 </div>
-              );
-            }}
+                <button
+                  onClick={() => handleDelete(milestone.id)}
+                  disabled={deleteMilestone.isPending}
+                  className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              </div>
+            )}
           />
         )}
       </div>

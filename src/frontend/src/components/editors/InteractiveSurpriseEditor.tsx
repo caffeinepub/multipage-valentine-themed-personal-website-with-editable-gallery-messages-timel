@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, Trash2, Save } from 'lucide-react';
 import type { QuizQuestion, FlipCard } from '../../backend';
 import { toast } from 'sonner';
+import { getUserFriendlyErrorMessage } from '../../utils/authzError';
 
 export default function InteractiveSurpriseEditor() {
   const { data: config } = useGetInteractiveSurpriseConfig();
@@ -86,7 +87,7 @@ export default function InteractiveSurpriseEditor() {
       toast.success('Interactive surprise config saved!');
     } catch (error) {
       console.error('Error saving config:', error);
-      toast.error('Failed to save config');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 

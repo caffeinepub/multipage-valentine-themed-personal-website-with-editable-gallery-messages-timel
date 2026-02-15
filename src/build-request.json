@@ -1,70 +1,56 @@
 {
   "kind": "build_request",
-  "title": "Make publishing workflow clear and add an obvious Publish callout in the editor UI",
-  "priority": "high",
+  "title": "Enable editing for the deployed draft (remove admin-only restriction)",
+  "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-14",
-      "text": "Add a prominent, always-visible \"Publishing\" callout section near the top of the Edit Content page that clearly explains the difference between saving edits (draft) and publishing the live site (chat-level publish), using clear English text.",
-      "target": "frontend",
+      "id": "REQ-1",
+      "text": "Make the deployed draft content editable for any authenticated Internet Identity user by removing the current admin-only restriction on content modification methods (gallery, love messages, timeline milestones, interactive surprise config, and final dedication). Editing access should require a logged-in identity, but must not require the caller to be an admin.",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-recent-9"
+          "msg-4"
         ],
         "quotes": [
-          "yess run the build again without changing anything and make the publish button appear clearly"
+          "make it editable"
         ]
       },
       "acceptanceCriteria": [
-        "On /edit, a clearly styled callout appears above the tabs (near the existing DraftReviewSummary) with a heading like \"Publishing\" or \"How to Publish\".",
-        "The callout text explicitly states that edits are saved as draft in the editor and that publishing happens outside the editor (via the platform publish action in chat).",
-        "The callout uses high-contrast styling consistent with the romantic theme (e.g., bordered card, icon, clear hierarchy) and is readable on mobile and desktop.",
-        "No existing saved content is modified by merely viewing this callout (pure UI change)."
+        "A logged-in Internet Identity user can successfully call add/update/delete/reorder methods for gallery items, love messages, and timeline milestones without receiving \"Unauthorized: Only admins...\" traps.",
+        "A logged-in Internet Identity user can successfully call setInteractiveSurpriseConfig and setFinalDedication without receiving \"Unauthorized: Only admins...\" traps.",
+        "Unauthenticated (guest) callers still cannot call any content-modification methods and receive an authorization error/trap.",
+        "All existing query (read-only) methods remain publicly accessible as they are now (e.g., getAllGalleryItems, getAllLoveMessages, getAllTimelineMilestones, getInteractiveSurpriseConfig, getFinalDedication)."
       ]
     },
     {
-      "id": "REQ-15",
-      "text": "In the Publishing callout, include a clear user action that helps users reliably trigger the correct publish flow when the chat-level Publish button fails to appear, without changing any site content.",
+      "id": "REQ-2",
+      "text": "Ensure the existing Edit Content UI works end-to-end for authenticated users after the permission change, including successful saves and automatic list refresh via React Query invalidation.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-recent-7",
-          "msg-recent-9"
+          "msg-4"
         ],
         "quotes": [
-          "there is no button below your text",
-          "make the publish button appear clearly"
+          "make it editable"
         ]
       },
       "acceptanceCriteria": [
-        "The callout includes a single primary CTA (e.g., \"Copy publish request message\") that copies a short, explicit message to the clipboard instructing the user what to send in chat to request a rebuild/resurface of the publish button (English text).",
-        "After clicking the CTA, the UI shows a success confirmation (toast or inline confirmation) that the message was copied.",
-        "The CTA does not perform any backend mutations and does not create/update/delete/reorder any gallery/messages/timeline/dedication/surprise content.",
-        "If clipboard access is unavailable, the UI shows the message in a selectable text area so the user can manually copy it."
+        "After logging in, the user can use the Edit Content page tabs (Gallery, Messages, Timeline, Dedication, Surprise) to make changes and save them successfully without authorization failures.",
+        "After a successful create/update/delete/reorder action, the corresponding list in the UI refreshes to reflect the latest state (no manual page refresh required)."
       ]
     }
   ],
   "constraints": [
-    "Do not change or delete any user content as part of this work; the change must be UI-only and non-destructive.",
-    "Do not modify any files under frontend/src/components/ui (compose existing UI components instead).",
-    "Keep the existing routing structure (no route changes required)."
+    "Backend must remain a single-actor Motoko canister with all logic in backend/main.mo (no additional backend services).",
+    "Do not edit frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui."
   ],
   "nonGoals": [
-    "Implementing or modifying the platform/chat system that renders the real chat-level Publish button.",
-    "Adding a true in-app publish mechanism that deploys the site (not possible from within the app itself)."
+    "Adding third-party authentication providers (only Internet Identity is supported).",
+    "Implementing real-time collaboration or multi-user concurrent editing.",
+    "Introducing external databases or off-chain storage beyond the existing blob storage mixin."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

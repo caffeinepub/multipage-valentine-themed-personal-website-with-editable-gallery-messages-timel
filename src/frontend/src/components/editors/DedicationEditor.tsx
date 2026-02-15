@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Save } from 'lucide-react';
 import { toast } from 'sonner';
+import { getUserFriendlyErrorMessage } from '../../utils/authzError';
 
 export default function DedicationEditor() {
   const { data: dedication } = useGetFinalDedication();
@@ -35,7 +36,7 @@ export default function DedicationEditor() {
       toast.success('Dedication saved successfully!');
     } catch (error) {
       console.error('Error saving dedication:', error);
-      toast.error('Failed to save dedication');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 

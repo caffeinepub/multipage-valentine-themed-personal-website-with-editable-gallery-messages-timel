@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, Trash2, Edit, Save, X } from 'lucide-react';
 import type { LoveMessage } from '../../backend';
 import { toast } from 'sonner';
+import { getUserFriendlyErrorMessage } from '../../utils/authzError';
 
 export default function LoveMessagesEditor() {
   const { data: messages } = useGetAllLoveMessages();
@@ -50,7 +51,7 @@ export default function LoveMessagesEditor() {
       toast.success('Message added successfully!');
     } catch (error) {
       console.error('Error adding message:', error);
-      toast.error('Failed to add message');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 
@@ -79,7 +80,7 @@ export default function LoveMessagesEditor() {
       toast.success('Message updated!');
     } catch (error) {
       console.error('Error updating message:', error);
-      toast.error('Failed to update message');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 
@@ -94,7 +95,7 @@ export default function LoveMessagesEditor() {
         toast.success('Message deleted');
       } catch (error) {
         console.error('Error deleting message:', error);
-        toast.error('Failed to delete message');
+        toast.error(getUserFriendlyErrorMessage(error));
       }
     }
   };
@@ -106,9 +107,10 @@ export default function LoveMessagesEditor() {
           await updateOrder.mutateAsync({ id: reorderedMessages[i].id, newOrder: BigInt(i) });
         }
       }
+      toast.success('Messages reordered successfully!');
     } catch (error) {
       console.error('Error reordering messages:', error);
-      toast.error('Failed to reorder messages');
+      toast.error(getUserFriendlyErrorMessage(error));
     }
   };
 
@@ -198,14 +200,16 @@ export default function LoveMessagesEditor() {
                     <div className="flex gap-2">
                       <button
                         onClick={handleSaveEdit}
-                        className="flex-1 bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+                        disabled={updateMessage.isPending}
+                        className="flex-1 bg-primary text-primary-foreground py-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                       >
                         <Save className="w-4 h-4" />
-                        Save
+                        {updateMessage.isPending ? 'Saving...' : 'Save'}
                       </button>
                       <button
                         onClick={handleCancelEdit}
-                        className="flex-1 bg-muted text-foreground py-2 rounded-lg hover:bg-muted/80 transition-colors flex items-center justify-center gap-2"
+                        disabled={updateMessage.isPending}
+                        className="flex-1 bg-muted text-foreground py-2 rounded-lg hover:bg-muted/80 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                       >
                         <X className="w-4 h-4" />
                         Cancel
@@ -221,13 +225,15 @@ export default function LoveMessagesEditor() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleStartEdit(message)}
-                        className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                        disabled={deleteMessage.isPending}
+                        className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors disabled:opacity-50"
                       >
                         <Edit className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(message.id)}
-                        className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+                        disabled={deleteMessage.isPending}
+                        className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors disabled:opacity-50"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

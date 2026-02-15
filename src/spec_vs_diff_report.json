@@ -1,15 +1,51 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-14T09:36:31.994Z",
-  "summary": "The diff implements the requested always-visible Publishing callout on the Edit Content page and adds a single CTA to copy a publish-request message with success feedback and a clipboard-unavailable fallback, all as UI-only changes without modifying routing or files under frontend/src/components/ui.",
-  "missing_requirements": [],
-  "hallucinated_features": [],
-  "confidence": 0.9,
+  "generatedAt": "2026-02-14T19:08:23.824Z",
+  "summary": "Backend shows gallery mutation methods now gated by authenticated #user permission (not admin) and gallery read query remains public; frontend adds React Query invalidation/refetch on mutation success and improves error messaging in editors. Due to backend diff truncation, it’s not verifiable from the provided evidence that the same admin-only removal was applied to love messages, timeline milestones, interactive surprise config, and final dedication mutation methods.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Remove admin-only restriction for all content-modification methods (love messages, timeline milestones, interactive surprise config, final dedication) so any authenticated Internet Identity user (non-admin) can edit; guests still blocked; read-only queries stay public.",
+      "reason": "The backend diff excerpt explicitly shows the permission change for Gallery mutations and a public gallery query, but the sections for Love Messages, Timeline, Interactive Surprise, and Final Dedication methods are not present in the truncated excerpt, so implementation for those methods cannot be confirmed from provided evidence.",
+      "evidence": [
+        "backend/main.mo (truncated; only Gallery API portion shown)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added a frontend utility to parse/normalize authorization errors into user-friendly messages.",
+      "reason": "Not requested by REQ-1/REQ-2 (those focus on permission change and React Query refresh), and this introduces additional behavior beyond the stated requirements.",
+      "evidence": [
+        "frontend/src/utils/authzError.ts",
+        "frontend/src/components/editors/DedicationEditor.tsx",
+        "frontend/src/components/editors/GalleryEditor.tsx",
+        "frontend/src/components/editors/LoveMessagesEditor.tsx",
+        "frontend/src/components/editors/TimelineEditor.tsx",
+        "frontend/src/components/editors/InteractiveSurpriseEditor.tsx"
+      ]
+    },
+    {
+      "description": "Edit Content page now includes a PublishingCallout above DraftReviewSummary (guidance on how to publish the site).",
+      "reason": "Publishing guidance/UI changes are not part of the requested permission-change or React Query refresh requirements.",
+      "evidence": [
+        "frontend-file-summaries.txt (mentions frontend/src/pages/EditContentPage.tsx includes PublishingCallout)"
+      ]
+    }
+  ],
+  "confidence": 0.62,
   "changed_files": [
+    "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/src/components/PublishingCallout.tsx",
-    "frontend/src/pages/EditContentPage.tsx",
+    "frontend/src/components/editors/DedicationEditor.tsx",
+    "frontend/src/components/editors/GalleryEditor.tsx",
+    "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
+    "frontend/src/components/editors/LoveMessagesEditor.tsx",
+    "frontend/src/components/editors/TimelineEditor.tsx",
+    "frontend/src/hooks/useEditMutations.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/utils/authzError.ts",
     "project_state.json"
   ]
 }

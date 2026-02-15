@@ -2,11 +2,17 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-prominent-always-visible-publishing-callout-section-near-the-top-of-the-edit-content-page-that-clearly-explains-the-difference-between-saving-edits-draft-and-publishing-the-live-site-chat-level-publish-using-clear-english-text",
-      "featureTitle": "Add a prominent, always-visible \"Publishing\" callout section near the top of the Edit Content page that clearly explains the difference between saving edits (draft) and publishing the live site (chat-level publish), using clear English text.",
+      "featureId": "feature-ensure-the-existing-edit-content-ui-works-end-to-end-for-authenticated-users-after-the-permission-change-including-successful-saves-and-automatic-list-refresh-via-react-query-invalidation",
+      "featureTitle": "Ensure the existing Edit Content UI works end-to-end for authenticated users after the permission change, including successful saves and automatic list refresh via React Query invalidation.",
       "files": [
-        "frontend/src/components/PublishingCallout.tsx",
-        "frontend/src/pages/EditContentPage.tsx"
+        "frontend/src/components/editors/DedicationEditor.tsx",
+        "frontend/src/components/editors/GalleryEditor.tsx",
+        "frontend/src/components/editors/InteractiveSurpriseEditor.tsx",
+        "frontend/src/components/editors/LoveMessagesEditor.tsx",
+        "frontend/src/components/editors/TimelineEditor.tsx",
+        "frontend/src/hooks/useEditMutations.ts",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/utils/authzError.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -18,27 +24,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-14"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-in-the-publishing-callout-include-a-clear-user-action-that-helps-users-reliably-trigger-the-correct-publish-flow-when-the-chat-level-publish-button-fails-to-appear-without-changing-any-site-content",
-      "featureTitle": "In the Publishing callout, include a clear user action that helps users reliably trigger the correct publish flow when the chat-level Publish button fails to appear, without changing any site content.",
-      "files": [
-        "frontend/src/components/PublishingCallout.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-15"
+        "REQ-2"
       ],
       "confidence": "high"
     }

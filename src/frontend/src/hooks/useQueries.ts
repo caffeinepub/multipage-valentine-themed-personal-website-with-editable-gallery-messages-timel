@@ -14,7 +14,8 @@ export function useGetCallerUserProfile() {
       return actor.getCallerUserProfile();
     },
     enabled: !!actor && !actorFetching,
-    retry: false
+    retry: false,
+    staleTime: 5 * 60 * 1000 // 5 minutes
   });
 
   return {
@@ -33,8 +34,9 @@ export function useSaveCallerUserProfile() {
       if (!actor) throw new Error('Actor not available');
       return actor.saveCallerUserProfile(profile);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
+      await queryClient.refetchQueries({ queryKey: ['currentUserProfile'] });
     }
   });
 }
@@ -49,7 +51,8 @@ export function useGetAllGalleryItems() {
       if (!actor) return [];
       return actor.getAllGalleryItems();
     },
-    enabled: !!actor && !isFetching
+    enabled: !!actor && !isFetching,
+    staleTime: 30 * 1000 // 30 seconds
   });
 }
 
@@ -63,7 +66,8 @@ export function useGetAllLoveMessages() {
       if (!actor) return [];
       return actor.getAllLoveMessages();
     },
-    enabled: !!actor && !isFetching
+    enabled: !!actor && !isFetching,
+    staleTime: 30 * 1000 // 30 seconds
   });
 }
 
@@ -77,7 +81,8 @@ export function useGetAllTimelineMilestones() {
       if (!actor) return [];
       return actor.getAllTimelineMilestones();
     },
-    enabled: !!actor && !isFetching
+    enabled: !!actor && !isFetching,
+    staleTime: 30 * 1000 // 30 seconds
   });
 }
 
@@ -91,7 +96,8 @@ export function useGetInteractiveSurpriseConfig() {
       if (!actor) return null;
       return actor.getInteractiveSurpriseConfig();
     },
-    enabled: !!actor && !isFetching
+    enabled: !!actor && !isFetching,
+    staleTime: 30 * 1000 // 30 seconds
   });
 }
 
@@ -105,6 +111,7 @@ export function useGetFinalDedication() {
       if (!actor) return null;
       return actor.getFinalDedication();
     },
-    enabled: !!actor && !isFetching
+    enabled: !!actor && !isFetching,
+    staleTime: 30 * 1000 // 30 seconds
   });
 }
